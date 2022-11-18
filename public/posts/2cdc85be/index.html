@@ -1,0 +1,639 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.ico">
+  <link rel="icon" href="/img/favicon.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="个人博客">
+  <meta name="author" content="包打听">
+  <meta name="keywords" content="">
+  <meta name="description" content="使用TS开发环境搭建 parcel网址  https:&#x2F;&#x2F;parceljs.org&#x2F;  安装命令  1npm install -g parcel-bundler   新建一个index.html文件  12345678910111213&lt;!DOCTYPE html&gt;&lt;html lang&#x3D;&quot;en&quot;&gt;&lt;head&gt;    &lt;meta char">
+<meta property="og:type" content="article">
+<meta property="og:title" content="游戏引擎渲染基础之WebGl">
+<meta property="og:url" content="https://allknowboy.com/posts/2cdc85be/index.html">
+<meta property="og:site_name" content="Dream使用说明书">
+<meta property="og:description" content="使用TS开发环境搭建 parcel网址  https:&#x2F;&#x2F;parceljs.org&#x2F;  安装命令  1npm install -g parcel-bundler   新建一个index.html文件  12345678910111213&lt;!DOCTYPE html&gt;&lt;html lang&#x3D;&quot;en&quot;&gt;&lt;head&gt;    &lt;meta char">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://allknowboy.com/images/basicwebgl/basicwebgl01.png">
+<meta property="og:image" content="https://allknowboy.com/images/basicwebgl/basicwebgl02.png">
+<meta property="og:image" content="https://allknowboy.com/images/basicwebgl/basicwebgl03.png">
+<meta property="og:image" content="https://allknowboy.com/images/basicwebgl/basicwebgl04.png">
+<meta property="og:image" content="https://allknowboy.com/images/basicwebgl/basicwebgl05.png">
+<meta property="og:image" content="https://allknowboy.com/images/basicwebgl/basicwebgl06.png">
+<meta property="og:image" content="https://allknowboy.com/images/basicwebgl/basicwebgl07.png">
+<meta property="article:published_time" content="2019-06-10T13:41:34.000Z">
+<meta property="article:modified_time" content="2020-06-29T01:36:52.068Z">
+<meta property="article:author" content="包打听">
+<meta property="article:tag" content="JavaScript">
+<meta property="article:tag" content="WebGl">
+<meta property="article:tag" content="parcel">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://allknowboy.com/images/basicwebgl/basicwebgl01.png">
+  
+  <title>游戏引擎渲染基础之WebGl - Dream使用说明书</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"allknowboy.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":1260480291,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Dream使用说明书</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="游戏引擎渲染基础之WebGl">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2019-06-10 21:41" pubdate>
+        2019年6月10日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      13k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      40 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">游戏引擎渲染基础之WebGl</h1>
+            
+            <div class="markdown-body">
+              <h3 id="使用TS开发环境搭建"><a href="#使用TS开发环境搭建" class="headerlink" title="使用TS开发环境搭建"></a>使用TS开发环境搭建</h3><ul>
+<li>parcel网址</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://parceljs.org/">https://parceljs.org/</a></p>
+<ul>
+<li>安装命令</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">npm install -g parcel-bundler<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>新建一个index.html文件</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-meta-keyword">html</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">&quot;en&quot;</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">&quot;UTF-8&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;viewport&quot;</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;width=device-width, initial-scale=1.0&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">http-equiv</span>=<span class="hljs-string">&quot;X-UA-Compatible&quot;</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;ie=edge&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>Document<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">canvas</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;webgl&quot;</span> <span class="hljs-attr">width</span>=<span class="hljs-string">&quot;400&quot;</span> <span class="hljs-attr">height</span>=<span class="hljs-string">&quot;400&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">canvas</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;./main.ts&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>同目录下新建一个main.ts的文件</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;hello ts&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>构建环境</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">parcel index.html<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>打开网址</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="http://localhost:1234/">http://localhost:1234/</a></p>
+<p>在console里面可以看到打印的”hello ts”, 接下来可以使用ts进行web的开发</p>
+<ul>
+<li>源码地址</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://gitee.com/limo/basic_webgl/tree/master/basic01">https://gitee.com/limo/basic_webgl/tree/master/basic01</a></p>
+<h3 id="显示一个webgl的黑色屏幕"><a href="#显示一个webgl的黑色屏幕" class="headerlink" title="显示一个webgl的黑色屏幕"></a>显示一个webgl的黑色屏幕</h3><ul>
+<li>工具方法用于不同浏览器获取WebGl的句柄</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 获取当前的webgl句柄</span><br><span class="hljs-comment"> *</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param <span class="hljs-type">&#123;HTMLCanvasElement&#125;</span> <span class="hljs-variable">canvas</span></span></span><br><span class="hljs-comment"> * <span class="hljs-doctag">@returns <span class="hljs-type">&#123;WebGLRenderingContext&#125;</span></span></span><br><span class="hljs-comment"> */</span><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getWebGLContext</span>(<span class="hljs-params">canvas: HTMLCanvasElement</span>) : <span class="hljs-title">WebGLRenderingContext</span> </span>&#123;<br>    <span class="hljs-keyword">let</span> gl = canvas.getContext(<span class="hljs-string">&#x27;webgl&#x27;</span>) || canvas.getContext(<span class="hljs-string">&#x27;experimental-webgl&#x27;</span>)<br>    <span class="hljs-keyword">return</span> gl<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>渲染的方法</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 渲染的方法</span><br><span class="hljs-comment"> *</span><br><span class="hljs-comment"> */</span><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">render</span>(<span class="hljs-params"></span>) </span>&#123;<br>    <span class="hljs-comment">// 清除颜色</span><br>    gl.clearColor(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>)<br>    <span class="hljs-comment">// 使用深度测试</span><br>    gl.enable(gl.DEPTH_TEST)<br>    <span class="hljs-comment">// 清除模式</span><br>    gl.clear(gl.COLOR_BUFFER_BIT  | gl.DEPTH_BUFFER_BIT)<br>    <span class="hljs-comment">// 启动混合模式(后面图片会用到)</span><br>    gl.enable(gl.BLEND);<br>    <span class="hljs-comment">// 设置混合模式</span><br>    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA)<br>    <span class="hljs-comment">// 设置视界</span><br>    gl.viewport(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, CANVAS_WIDTH, CANVAS_HEIGHT)<br>    <span class="hljs-comment">// 动画帧方法(多次调用)</span><br>    requestAnimationFrame(render)<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>当前的源码</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-comment">// 当前的gl句柄</span><br><span class="hljs-keyword">let</span> gl: WebGLRenderingContext = <span class="hljs-literal">null</span><br><span class="hljs-keyword">let</span> CANVAS_WIDTH: <span class="hljs-built_in">number</span> = <span class="hljs-number">0</span><br><span class="hljs-keyword">let</span> CANVAS_HEIGHT: <span class="hljs-built_in">number</span> = <span class="hljs-number">0</span><br><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">main</span>(<span class="hljs-params"></span>) </span>&#123;<br>    <span class="hljs-keyword">let</span> canvas: HTMLCanvasElement = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&quot;webgl&quot;</span>) <span class="hljs-keyword">as</span> HTMLCanvasElement<br>    CANVAS_WIDTH = canvas.width<br>    CANVAS_HEIGHT = canvas.height<br>    gl = getWebGLContext(canvas)<br>    <span class="hljs-comment">// 调用渲染</span><br>    render()<br>&#125;<br><br>main()<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 渲染的方法</span><br><span class="hljs-comment"> *</span><br><span class="hljs-comment"> */</span><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">render</span>(<span class="hljs-params"></span>) </span>&#123;<br>    <span class="hljs-comment">// 清除颜色</span><br>    gl.clearColor(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>)<br>    gl.enable(gl.DEPTH_TEST)<br>    gl.clear(gl.COLOR_BUFFER_BIT  | gl.DEPTH_BUFFER_BIT)<br>    gl.enable(gl.BLEND);<br>    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA)<br>    <span class="hljs-comment">// 设置视界</span><br>    gl.viewport(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, CANVAS_WIDTH, CANVAS_HEIGHT)<br>    <span class="hljs-comment">// gl.drawArrays(gl.TRIANGLES, 0, count)</span><br>    requestAnimationFrame(render)<br>&#125;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 获取当前的webgl句柄</span><br><span class="hljs-comment"> *</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param <span class="hljs-type">&#123;HTMLCanvasElement&#125;</span> <span class="hljs-variable">canvas</span></span></span><br><span class="hljs-comment"> * <span class="hljs-doctag">@returns <span class="hljs-type">&#123;WebGLRenderingContext&#125;</span></span></span><br><span class="hljs-comment"> */</span><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getWebGLContext</span>(<span class="hljs-params">canvas: HTMLCanvasElement</span>) : <span class="hljs-title">WebGLRenderingContext</span> </span>&#123;<br>    <span class="hljs-keyword">let</span> gl = canvas.getContext(<span class="hljs-string">&#x27;webgl&#x27;</span>) || canvas.getContext(<span class="hljs-string">&#x27;experimental-webgl&#x27;</span>)<br>    <span class="hljs-keyword">return</span> gl<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>显示的内容</li>
+</ul>
+<p><img src="/images/basicwebgl/basicwebgl01.png" srcset="/img/loading.gif" lazyload></p>
+<ul>
+<li>源码地址</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://gitee.com/limo/basic_webgl/tree/master/basic02">https://gitee.com/limo/basic_webgl/tree/master/basic02</a></p>
+<h3 id="画一个三角形"><a href="#画一个三角形" class="headerlink" title="画一个三角形"></a>画一个三角形</h3><h4 id="创建shader，顶点着色器和片面着色器"><a href="#创建shader，顶点着色器和片面着色器" class="headerlink" title="创建shader，顶点着色器和片面着色器"></a>创建shader，顶点着色器和片面着色器</h4><ul>
+<li>创建并编译shader的工具方法</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 创建shader程序的方法</span><br><span class="hljs-comment"> *</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param <span class="hljs-type">&#123;WebGLRenderingContext&#125;</span> <span class="hljs-variable">gl</span></span></span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param <span class="hljs-type">&#123;number&#125;</span> <span class="hljs-variable">type</span></span></span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param <span class="hljs-type">&#123;string&#125;</span> <span class="hljs-variable">source</span></span></span><br><span class="hljs-comment"> */</span><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createShader</span>(<span class="hljs-params">gl: WebGLRenderingContext, <span class="hljs-keyword">type</span>: <span class="hljs-built_in">number</span>, source: <span class="hljs-built_in">string</span></span>) </span>&#123;<br>    <span class="hljs-comment">// 通过类型创建着色器对象</span><br>    <span class="hljs-keyword">const</span> shader = gl.createShader(<span class="hljs-keyword">type</span>)<br>    <span class="hljs-comment">// 将着色器代码装载到着色器对象内</span><br>    gl.shaderSource(shader, source)<br>    <span class="hljs-comment">// 编译着色器</span><br>    gl.compileShader(shader)<br>    <span class="hljs-comment">// 检测着色器的编译情况</span><br>    <span class="hljs-keyword">const</span> compiled = gl.getShaderParameter(shader, gl.COMPILE_STATUS)<br>    <span class="hljs-keyword">if</span>(!compiled)&#123;<br>        <span class="hljs-comment">// 获取当前的错误数据</span><br>        <span class="hljs-keyword">const</span> err = gl.getShaderInfoLog(shader)<br>        <span class="hljs-built_in">console</span>.error(<span class="hljs-string">&#x27;Failed to compile shader: &#x27;</span> + err)<br>        <span class="hljs-comment">// 删除着色器</span><br>        gl.deleteShader(shader)<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span><br>    &#125;<br>    <span class="hljs-keyword">return</span> shader<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>基础的GLSL源码</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-comment">// 顶点着色器的源码</span><br><span class="hljs-keyword">const</span> V_SHADER_SOURCE: <span class="hljs-built_in">string</span> =<span class="hljs-string">`</span><br><span class="hljs-string">attribute vec3 a_Position;</span><br><span class="hljs-string">attribute vec3 a_Color;</span><br><span class="hljs-string">varying vec3 v_Color;</span><br><span class="hljs-string">void main() &#123;</span><br><span class="hljs-string">    gl_Position = vec4(a_Position.x, a_Position.y, a_Position.z, 1.0);</span><br><span class="hljs-string">    v_Color = a_Color;</span><br><span class="hljs-string">&#125;`</span><br><br><span class="hljs-comment">// 片段着色器</span><br><span class="hljs-keyword">const</span> F_SHADER_SOURCE: <span class="hljs-built_in">string</span> =<span class="hljs-string">`</span><br><span class="hljs-string">precision mediump float;</span><br><span class="hljs-string">varying vec3 v_Color;</span><br><span class="hljs-string">void main() &#123;</span><br><span class="hljs-string">    gl_FragColor = vec4(v_Color.r, v_Color.g, v_Color.b, 1.0);;</span><br><span class="hljs-string">&#125;`</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="创建Program-着色器程序"><a href="#创建Program-着色器程序" class="headerlink" title="创建Program 着色器程序"></a>创建Program 着色器程序</h4><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 创建着色程序</span><br><span class="hljs-comment"> *</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param <span class="hljs-type">&#123;WebGLRenderingContext&#125;</span> <span class="hljs-variable">gl</span></span></span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param <span class="hljs-type">&#123;string&#125;</span> <span class="hljs-variable">vShaderSrc</span></span></span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param <span class="hljs-type">&#123;string&#125;</span> <span class="hljs-variable">fShaderSrc</span></span></span><br><span class="hljs-comment"> * <span class="hljs-doctag">@returns <span class="hljs-type">&#123;WebGLProgram&#125;</span></span></span><br><span class="hljs-comment"> */</span><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createProgram</span>(<span class="hljs-params">gl: WebGLRenderingContext, vShaderSrc?: <span class="hljs-built_in">string</span>, fShaderSrc?: <span class="hljs-built_in">string</span></span>) : <span class="hljs-title">WebGLProgram</span> </span>&#123;<br>    <span class="hljs-comment">// 加载顶点和片段着色器</span><br>    <span class="hljs-keyword">const</span> vertexShader = createShader(gl, gl.VERTEX_SHADER, vShaderSrc || V_SHADER_SOURCE)<br>    <span class="hljs-keyword">const</span> fragmentShader = createShader(gl, gl.FRAGMENT_SHADER, fShaderSrc || F_SHADER_SOURCE)<br>    <span class="hljs-comment">// 创建着色程序</span><br>    <span class="hljs-keyword">const</span> program = gl.createProgram()<br>    <span class="hljs-comment">// 将编译过的着色器附加到着色程序上</span><br>    gl.attachShader(program, vertexShader)<br>    gl.attachShader(program, fragmentShader)<br>    <span class="hljs-comment">// 链接着色程序</span><br>    gl.linkProgram(program)<br>    <span class="hljs-comment">// 使用着色程序</span><br>    gl.useProgram(program)<br>    <span class="hljs-keyword">return</span> program<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="初始化顶点数据和颜色数据的buffer"><a href="#初始化顶点数据和颜色数据的buffer" class="headerlink" title="初始化顶点数据和颜色数据的buffer"></a>初始化顶点数据和颜色数据的buffer</h4><ul>
+<li>初始化顶点和颜色</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 初始化数据</span><br><span class="hljs-comment"> *</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param <span class="hljs-type">&#123;WebGLRenderingContext&#125;</span> <span class="hljs-variable">gl</span></span></span><br><span class="hljs-comment"> */</span><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">initBuffer</span>(<span class="hljs-params">gl: WebGLRenderingContext</span>) </span>&#123;<br>    <span class="hljs-comment">// 定义顶点数据</span><br>    <span class="hljs-keyword">const</span> vertices = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Float32Array</span>([<br>        -<span class="hljs-number">0.5</span>, <span class="hljs-number">0.5</span>, <span class="hljs-number">0.5</span>,<br>        -<span class="hljs-number">0.5</span>, -<span class="hljs-number">0.5</span>, <span class="hljs-number">0.5</span>,<br>        <span class="hljs-number">0.5</span>, <span class="hljs-number">0.5</span>, <span class="hljs-number">0.5</span>,<br>    ])<br>    <span class="hljs-comment">// 写入顶点</span><br>    <span class="hljs-keyword">const</span> vertexBuffer =  gl.createBuffer();<br>    gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);<br>    gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);<br>    <span class="hljs-keyword">const</span> a_Position = gl.getAttribLocation(program, <span class="hljs-string">&#x27;a_Position&#x27;</span>);<br>    gl.vertexAttribPointer(a_Position, <span class="hljs-number">3</span>, gl.FLOAT, <span class="hljs-literal">false</span>,<span class="hljs-number">0</span>, <span class="hljs-number">0</span>);<br>    gl.enableVertexAttribArray(a_Position);<br><br>    <span class="hljs-comment">// 定义颜色数据</span><br>    <span class="hljs-keyword">const</span> colors = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Float32Array</span>([<br>        <span class="hljs-number">1.0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>,<br>        <span class="hljs-number">1.0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>,<br>        <span class="hljs-number">1.0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>,<br>    ])<br>    <span class="hljs-comment">// 写入颜色</span><br>    <span class="hljs-keyword">const</span> colorBuffer = gl.createBuffer();<br>    gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);<br>    gl.bufferData(gl.ARRAY_BUFFER, colors, gl.STATIC_DRAW);<br>    <span class="hljs-keyword">const</span> a_Color = gl.getAttribLocation(program, <span class="hljs-string">&#x27;a_Color&#x27;</span>);<br>    gl.vertexAttribPointer(a_Color, <span class="hljs-number">3</span>, gl.FLOAT, <span class="hljs-literal">false</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>);<br>    gl.enableVertexAttribArray(a_Color);<br><br>    count = vertices.length / <span class="hljs-number">3</span><br>    <span class="hljs-built_in">console</span>.log(count)<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>画出缓存的方法 渲染的模式为三角形</li>
+<li>count表示为顶点的数量(3个一组为顶点)</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ts">gl.drawArrays(gl.TRIANGLES, <span class="hljs-number">0</span>, count)<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>当前的源码</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;hello ts&#x27;</span>)<br><br><span class="hljs-comment">// 顶点着色器的源码</span><br><span class="hljs-keyword">const</span> V_SHADER_SOURCE: <span class="hljs-built_in">string</span> =<span class="hljs-string">`</span><br><span class="hljs-string">attribute vec3 a_Position;</span><br><span class="hljs-string">attribute vec3 a_Color;</span><br><span class="hljs-string">varying vec3 v_Color;</span><br><span class="hljs-string">void main() &#123;</span><br><span class="hljs-string">    gl_Position = vec4(a_Position.x, a_Position.y, a_Position.z, 1.0);</span><br><span class="hljs-string">    v_Color = a_Color;</span><br><span class="hljs-string">&#125;`</span><br><br><span class="hljs-comment">// 片段着色器</span><br><span class="hljs-keyword">const</span> F_SHADER_SOURCE: <span class="hljs-built_in">string</span> =<span class="hljs-string">`</span><br><span class="hljs-string">precision mediump float;</span><br><span class="hljs-string">varying vec3 v_Color;</span><br><span class="hljs-string">void main() &#123;</span><br><span class="hljs-string">    gl_FragColor = vec4(v_Color.r, v_Color.g, v_Color.b, 1.0);;</span><br><span class="hljs-string">&#125;`</span><br><br><br><br><span class="hljs-comment">// 当前的gl句柄</span><br><span class="hljs-keyword">let</span> gl: WebGLRenderingContext = <span class="hljs-literal">null</span><br><span class="hljs-keyword">let</span> program: WebGLProgram = <span class="hljs-literal">null</span><br><span class="hljs-keyword">let</span> CANVAS_WIDTH: <span class="hljs-built_in">number</span> = <span class="hljs-number">0</span><br><span class="hljs-keyword">let</span> CANVAS_HEIGHT: <span class="hljs-built_in">number</span> = <span class="hljs-number">0</span><br><span class="hljs-keyword">let</span> count = <span class="hljs-number">0</span><br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 初始化数据</span><br><span class="hljs-comment"> *</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param <span class="hljs-type">&#123;WebGLRenderingContext&#125;</span> <span class="hljs-variable">gl</span></span></span><br><span class="hljs-comment"> */</span><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">initBuffer</span>(<span class="hljs-params">gl: WebGLRenderingContext</span>) </span>&#123;<br>    <span class="hljs-comment">// 定义顶点数据</span><br>    <span class="hljs-keyword">const</span> vertices = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Float32Array</span>([<br>        -<span class="hljs-number">0.5</span>, <span class="hljs-number">0.5</span>, <span class="hljs-number">0.5</span>,<br>        -<span class="hljs-number">0.5</span>, -<span class="hljs-number">0.5</span>, <span class="hljs-number">0.5</span>,<br>        <span class="hljs-number">0.5</span>, <span class="hljs-number">0.5</span>, <span class="hljs-number">0.5</span>,<br>    ])<br>    <span class="hljs-comment">// 写入顶点</span><br>    <span class="hljs-keyword">const</span> vertexBuffer =  gl.createBuffer();<br>    gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);<br>    gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);<br>    <span class="hljs-keyword">const</span> a_Position = gl.getAttribLocation(program, <span class="hljs-string">&#x27;a_Position&#x27;</span>);<br>    gl.vertexAttribPointer(a_Position, <span class="hljs-number">3</span>, gl.FLOAT, <span class="hljs-literal">false</span>,<span class="hljs-number">0</span>, <span class="hljs-number">0</span>);<br>    gl.enableVertexAttribArray(a_Position);<br><br>    <span class="hljs-comment">// 定义颜色数据</span><br>    <span class="hljs-keyword">const</span> colors = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Float32Array</span>([<br>        <span class="hljs-number">1.0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>,<br>        <span class="hljs-number">1.0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>,<br>        <span class="hljs-number">1.0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>,<br>    ])<br>    <span class="hljs-comment">// 写入颜色</span><br>    <span class="hljs-keyword">const</span> colorBuffer = gl.createBuffer();<br>    gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);<br>    gl.bufferData(gl.ARRAY_BUFFER, colors, gl.STATIC_DRAW);<br>    <span class="hljs-keyword">const</span> a_Color = gl.getAttribLocation(program, <span class="hljs-string">&#x27;a_Color&#x27;</span>);<br>    gl.vertexAttribPointer(a_Color, <span class="hljs-number">3</span>, gl.FLOAT, <span class="hljs-literal">false</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>);<br>    gl.enableVertexAttribArray(a_Color);<br><br>    count = vertices.length / <span class="hljs-number">3</span><br>    <span class="hljs-built_in">console</span>.log(count)<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">main</span>(<span class="hljs-params"></span>) </span>&#123;<br>    <span class="hljs-keyword">let</span> canvas: HTMLCanvasElement = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&quot;webgl&quot;</span>) <span class="hljs-keyword">as</span> HTMLCanvasElement<br>    CANVAS_WIDTH = canvas.width<br>    CANVAS_HEIGHT = canvas.height<br>    gl = getWebGLContext(canvas)<br>    program = createProgram(gl)<br>    initBuffer(gl)<br>    <span class="hljs-comment">// 调用渲染</span><br>    render()<br>&#125;<br><br>main()<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 渲染的方法</span><br><span class="hljs-comment"> *</span><br><span class="hljs-comment"> */</span><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">render</span>(<span class="hljs-params"></span>) </span>&#123;<br>    <span class="hljs-comment">// 清除颜色</span><br>    gl.clearColor(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>)<br>    gl.enable(gl.DEPTH_TEST)<br>    gl.clear(gl.COLOR_BUFFER_BIT  | gl.DEPTH_BUFFER_BIT)<br>    gl.enable(gl.BLEND);<br>    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA)<br>    <span class="hljs-comment">// 设置视界</span><br>    gl.viewport(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, CANVAS_WIDTH, CANVAS_HEIGHT)<br>    gl.drawArrays(gl.TRIANGLES, <span class="hljs-number">0</span>, count)<br>    requestAnimationFrame(render)<br>&#125;<br><br><span class="hljs-comment">/********* 工具方法 ***********/</span><br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 获取当前的webgl句柄</span><br><span class="hljs-comment"> *</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param <span class="hljs-type">&#123;HTMLCanvasElement&#125;</span> <span class="hljs-variable">canvas</span></span></span><br><span class="hljs-comment"> * <span class="hljs-doctag">@returns <span class="hljs-type">&#123;WebGLRenderingContext&#125;</span></span></span><br><span class="hljs-comment"> */</span><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getWebGLContext</span>(<span class="hljs-params">canvas: HTMLCanvasElement</span>) : <span class="hljs-title">WebGLRenderingContext</span> </span>&#123;<br>    <span class="hljs-keyword">let</span> gl = canvas.getContext(<span class="hljs-string">&#x27;webgl&#x27;</span>) || canvas.getContext(<span class="hljs-string">&#x27;experimental-webgl&#x27;</span>)<br>    <span class="hljs-keyword">return</span> gl<br>&#125;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 创建shader程序的方法</span><br><span class="hljs-comment"> *</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param <span class="hljs-type">&#123;WebGLRenderingContext&#125;</span> <span class="hljs-variable">gl</span></span></span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param <span class="hljs-type">&#123;number&#125;</span> <span class="hljs-variable">type</span></span></span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param <span class="hljs-type">&#123;string&#125;</span> <span class="hljs-variable">source</span></span></span><br><span class="hljs-comment"> */</span><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createShader</span>(<span class="hljs-params">gl: WebGLRenderingContext, <span class="hljs-keyword">type</span>: <span class="hljs-built_in">number</span>, source: <span class="hljs-built_in">string</span></span>) </span>&#123;<br>    <span class="hljs-comment">// 通过类型创建着色器对象</span><br>    <span class="hljs-keyword">const</span> shader = gl.createShader(<span class="hljs-keyword">type</span>)<br>    <span class="hljs-comment">// 将着色器代码装载到着色器对象内</span><br>    gl.shaderSource(shader, source)<br>    <span class="hljs-comment">// 编译着色器</span><br>    gl.compileShader(shader)<br>    <span class="hljs-comment">// 检测着色器的编译情况</span><br>    <span class="hljs-keyword">const</span> compiled = gl.getShaderParameter(shader, gl.COMPILE_STATUS)<br>    <span class="hljs-keyword">if</span>(!compiled)&#123;<br>        <span class="hljs-comment">// 获取当前的错误数据</span><br>        <span class="hljs-keyword">const</span> err = gl.getShaderInfoLog(shader)<br>        <span class="hljs-built_in">console</span>.error(<span class="hljs-string">&#x27;Failed to compile shader: &#x27;</span> + err)<br>        <span class="hljs-comment">// 删除着色器</span><br>        gl.deleteShader(shader)<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span><br>    &#125;<br>    <span class="hljs-keyword">return</span> shader<br>&#125;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 创建着色程序</span><br><span class="hljs-comment"> *</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param <span class="hljs-type">&#123;WebGLRenderingContext&#125;</span> <span class="hljs-variable">gl</span></span></span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param <span class="hljs-type">&#123;string&#125;</span> <span class="hljs-variable">vShaderSrc</span></span></span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param <span class="hljs-type">&#123;string&#125;</span> <span class="hljs-variable">fShaderSrc</span></span></span><br><span class="hljs-comment"> * <span class="hljs-doctag">@returns <span class="hljs-type">&#123;WebGLProgram&#125;</span></span></span><br><span class="hljs-comment"> */</span><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createProgram</span>(<span class="hljs-params">gl: WebGLRenderingContext, vShaderSrc?: <span class="hljs-built_in">string</span>, fShaderSrc?: <span class="hljs-built_in">string</span></span>) : <span class="hljs-title">WebGLProgram</span> </span>&#123;<br>    <span class="hljs-comment">// 加载顶点和片段着色器</span><br>    <span class="hljs-keyword">const</span> vertexShader = createShader(gl, gl.VERTEX_SHADER, vShaderSrc || V_SHADER_SOURCE)<br>    <span class="hljs-keyword">const</span> fragmentShader = createShader(gl, gl.FRAGMENT_SHADER, fShaderSrc || F_SHADER_SOURCE)<br>    <span class="hljs-comment">// 创建着色程序</span><br>    <span class="hljs-keyword">const</span> program = gl.createProgram()<br>    <span class="hljs-comment">// 将编译过的着色器附加到着色程序上</span><br>    gl.attachShader(program, vertexShader)<br>    gl.attachShader(program, fragmentShader)<br>    <span class="hljs-comment">// 链接着色程序</span><br>    gl.linkProgram(program)<br>    <span class="hljs-comment">// 使用着色程序</span><br>    gl.useProgram(program)<br>    <span class="hljs-keyword">return</span> program<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>显示的内容</li>
+</ul>
+<p><img src="/images/basicwebgl/basicwebgl02.png" srcset="/img/loading.gif" lazyload></p>
+<h4 id="修改顶点颜色"><a href="#修改顶点颜色" class="headerlink" title="修改顶点颜色"></a>修改顶点颜色</h4><p><strong>渲染的颜色为RGB值，3个一组，表示3个顶点的颜色，每个顶点需要单独设置颜色</strong></p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-comment">// 定义颜色数据</span><br><span class="hljs-keyword">const</span> colors = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Float32Array</span>([<br>    <span class="hljs-number">1.0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>,<br>    <span class="hljs-number">0</span>, <span class="hljs-number">1.0</span>, <span class="hljs-number">0</span>,<br>    <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1.0</span>,<br>])<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>显示的内容</li>
+</ul>
+<p><img src="/images/basicwebgl/basicwebgl03.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="画出一个矩形"><a href="#画出一个矩形" class="headerlink" title="画出一个矩形"></a>画出一个矩形</h3><h4 id="使用两个三角形拼成一个矩形"><a href="#使用两个三角形拼成一个矩形" class="headerlink" title="使用两个三角形拼成一个矩形"></a>使用两个三角形拼成一个矩形</h4><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-comment">// 定义顶点数据</span><br><span class="hljs-keyword">const</span> vertices = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Float32Array</span>([<br>    -<span class="hljs-number">0.5</span>, <span class="hljs-number">0.5</span>, <span class="hljs-number">0.5</span>,<br>    -<span class="hljs-number">0.5</span>, -<span class="hljs-number">0.5</span>, <span class="hljs-number">0.5</span>,<br>    <span class="hljs-number">0.5</span>, <span class="hljs-number">0.5</span>, <span class="hljs-number">0.5</span>,<br>    <span class="hljs-number">0.5</span>, <span class="hljs-number">0.5</span>, <span class="hljs-number">0.5</span>,<br>    -<span class="hljs-number">0.5</span>, -<span class="hljs-number">0.5</span>, <span class="hljs-number">0.5</span>,<br>    <span class="hljs-number">0.5</span>, -<span class="hljs-number">0.5</span>, <span class="hljs-number">0.5</span>,<br>])<br><span class="hljs-comment">// 定义颜色数据</span><br><span class="hljs-keyword">const</span> colors = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Float32Array</span>([<br>    <span class="hljs-number">1.0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>,<br>    <span class="hljs-number">1.0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>,<br>    <span class="hljs-number">1.0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>,<br>    <span class="hljs-number">1.0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>,<br>    <span class="hljs-number">1.0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>,<br>    <span class="hljs-number">1.0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>,<br>])<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>显示的内容</li>
+</ul>
+<p><img src="/images/basicwebgl/basicwebgl04.png" srcset="/img/loading.gif" lazyload></p>
+<h4 id="矩形的构造方式"><a href="#矩形的构造方式" class="headerlink" title="矩形的构造方式"></a>矩形的构造方式</h4><ul>
+<li>顶点使用逆时针方式排序</li>
+<li>由两个三角形拼凑而成</li>
+<li>x0 -&gt; x1 -&gt; x2</li>
+<li>y0 -&gt; y1 -&gt; y2</li>
+<li>每个顶点对应一个颜色</li>
+</ul>
+<p><img src="/images/basicwebgl/basicwebgl05.png" srcset="/img/loading.gif" lazyload></p>
+<h4 id="使用TRIANGLE-STRIP方式构造三角形带"><a href="#使用TRIANGLE-STRIP方式构造三角形带" class="headerlink" title="使用TRIANGLE_STRIP方式构造三角形带"></a>使用TRIANGLE_STRIP方式构造三角形带</h4><ul>
+<li>使用共用顶点的方式构造多个三角形</li>
+<li>第二个三角形可以使用第一个三角形的两个顶点</li>
+<li>使用此方式可以减少顶点的数据量</li>
+<li>但是因为共用顶点，所以顶点颜色也是共用的，只能设置4个顶点颜色，适合创建单身模型</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-keyword">const</span> vertices = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Float32Array</span>([<br>    -<span class="hljs-number">0.5</span>, <span class="hljs-number">0.5</span>, <span class="hljs-number">0.5</span>,<br>    -<span class="hljs-number">0.5</span>, -<span class="hljs-number">0.5</span>, <span class="hljs-number">0.5</span>,<br>    <span class="hljs-number">0.5</span>, <span class="hljs-number">0.5</span>, <span class="hljs-number">0.5</span>,<br>    <span class="hljs-comment">// 0.5, 0.5, 0.5,</span><br>    <span class="hljs-comment">// -0.5, -0.5, 0.5,</span><br>    <span class="hljs-number">0.5</span>, -<span class="hljs-number">0.5</span>, <span class="hljs-number">0.5</span>,<br>])<br><br>  <span class="hljs-comment">// 定义颜色数据</span><br><span class="hljs-keyword">const</span> colors = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Float32Array</span>([<br>    <span class="hljs-number">1.0</span>, <span class="hljs-number">1.0</span>, <span class="hljs-number">0</span>,<br>    <span class="hljs-number">1.0</span>, <span class="hljs-number">1.0</span>, <span class="hljs-number">0</span>,<br>    <span class="hljs-number">1.0</span>, <span class="hljs-number">1.0</span>, <span class="hljs-number">0</span>,<br>    <span class="hljs-number">1.0</span>, <span class="hljs-number">1.0</span>, <span class="hljs-number">0</span>,<br>])<br></code></pre></td></tr></table></figure>
+
+<p><img src="/images/basicwebgl/basicwebgl06.png" srcset="/img/loading.gif" lazyload></p>
+<ul>
+<li>源码地址</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://gitee.com/limo/basic_webgl/tree/master/basic03">https://gitee.com/limo/basic_webgl/tree/master/basic03</a></p>
+<h3 id="贴图渲染"><a href="#贴图渲染" class="headerlink" title="贴图渲染"></a>贴图渲染</h3><ul>
+<li>贴图渲染的GLSL源码</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-comment">// 带图片的顶点着色器的源码</span><br><span class="hljs-keyword">const</span> V_IMAGE_SHADER_SOURCE: <span class="hljs-built_in">string</span> =<span class="hljs-string">`</span><br><span class="hljs-string">attribute vec2 a_Position;</span><br><span class="hljs-string">attribute vec2 a_TexCoord;</span><br><span class="hljs-string">varying vec2 v_TexCoord;</span><br><span class="hljs-string">void main() &#123;</span><br><span class="hljs-string">    gl_Position = vec4(a_Position.x, a_Position.y, 0.5, 1.0);</span><br><span class="hljs-string">    v_TexCoord = a_TexCoord;</span><br><span class="hljs-string">&#125;`</span><br><br><span class="hljs-comment">// 带图片的片段着色器</span><br><span class="hljs-keyword">const</span> F_IMAGE_SHADER_SOURCE: <span class="hljs-built_in">string</span> =<span class="hljs-string">`</span><br><span class="hljs-string">precision mediump float;</span><br><span class="hljs-string">uniform sampler2D u_Sampler;</span><br><span class="hljs-string">varying vec2 v_TexCoord;</span><br><span class="hljs-string">void main() &#123;</span><br><span class="hljs-string">    vec4 c = texture2D(u_Sampler,v_TexCoord);</span><br><span class="hljs-string">    gl_FragColor = c;</span><br><span class="hljs-string">&#125;`</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>初始化顶点和uv缓存数据</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 初始化带图片的buffer</span><br><span class="hljs-comment"> *</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param <span class="hljs-type">&#123;WebGLRenderingContext&#125;</span> <span class="hljs-variable">gl</span></span></span><br><span class="hljs-comment"> */</span><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">initBufferWithImage</span>(<span class="hljs-params">gl: WebGLRenderingContext</span>) </span>&#123;<br>    <span class="hljs-comment">// 定义顶点数据</span><br>    <span class="hljs-keyword">const</span> vertices = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Float32Array</span>([<br>        -<span class="hljs-number">0.5</span>, <span class="hljs-number">0.5</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">1.0</span>,<br>        -<span class="hljs-number">0.5</span>, -<span class="hljs-number">0.5</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span>,<br>        <span class="hljs-number">0.5</span>, <span class="hljs-number">0.5</span>, <span class="hljs-number">1.0</span>, <span class="hljs-number">1.0</span>,<br>        <span class="hljs-number">0.5</span>, -<span class="hljs-number">0.5</span>, <span class="hljs-number">1.0</span>, <span class="hljs-number">0.0</span>,<br>    ])<br>    <span class="hljs-comment">// 写入顶点</span><br>    <span class="hljs-keyword">const</span> vertexBuffer =  gl.createBuffer()<br>    <span class="hljs-comment">// 获取当前数据的比特长度</span><br>    <span class="hljs-keyword">const</span> bSize = vertices.BYTES_PER_ELEMENT<br>    <span class="hljs-comment">// 绑定缓冲区</span><br>    gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer)<br>    <span class="hljs-comment">// 写入缓冲区</span><br>    gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW)<br>    <span class="hljs-comment">// 获得着色程序中的参数的数据位置seek</span><br>    <span class="hljs-keyword">const</span> a_Position = gl.getAttribLocation(program, <span class="hljs-string">&#x27;a_Position&#x27;</span>)<br>    <span class="hljs-keyword">const</span> a_TexCoord = gl.getAttribLocation(program, <span class="hljs-string">&#x27;a_TexCoord&#x27;</span>)<br><br>    gl.vertexAttribPointer(a_Position, <span class="hljs-number">2</span>, gl.FLOAT, <span class="hljs-literal">false</span>, bSize * <span class="hljs-number">4</span>, <span class="hljs-number">0</span>)<br>    gl.vertexAttribPointer(a_TexCoord, <span class="hljs-number">2</span>, gl.FLOAT, <span class="hljs-literal">false</span>, bSize * <span class="hljs-number">4</span>, bSize * <span class="hljs-number">2</span>)<br>    gl.enableVertexAttribArray(a_Position)<br>    gl.enableVertexAttribArray(a_TexCoord)<br><br>    count = vertices.length / <span class="hljs-number">4</span><br>    <span class="hljs-built_in">console</span>.log(count)<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>初始化纹理加载(使用image加载图片)</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 初始化纹理资源</span><br><span class="hljs-comment"> *</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param <span class="hljs-type">&#123;WebGLRenderingContext&#125;</span> <span class="hljs-variable">gl</span></span></span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param <span class="hljs-type">&#123;WebGLProgram&#125;</span> <span class="hljs-variable">program</span></span></span><br><span class="hljs-comment"> */</span><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">initTextures</span>(<span class="hljs-params">gl: WebGLRenderingContext, program: WebGLProgram</span>) </span>&#123;<br>    <span class="hljs-keyword">const</span> texture = gl.createTexture()<br>    <span class="hljs-keyword">const</span> u_Sampler = gl.getUniformLocation(program, <span class="hljs-string">&#x27;u_Sampler&#x27;</span>);<br>    <span class="hljs-keyword">const</span> image = <span class="hljs-keyword">new</span> Image()<br>    image.src = <span class="hljs-string">&quot;./head.jpeg&quot;</span><br>    image.onload = <span class="hljs-function">() =&gt;</span> &#123;<br>        <span class="hljs-comment">// 对图形进行Y轴的反转</span><br>        gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,<span class="hljs-number">1</span>)<br>        <span class="hljs-comment">// 开启0号纹理单元</span><br>        gl.activeTexture(gl.TEXTURE0)<br>        <span class="hljs-comment">// 绑定纹理对象</span><br>        gl.bindTexture(gl.TEXTURE_2D, texture)<br>        <span class="hljs-comment">// 配置纹理参数 可以不用使用2的N次幂</span><br>        gl.texParameterf(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR)<br>        gl.texParameterf(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR)<br>        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE)<br>        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE)<br>        <span class="hljs-comment">// 配置纹理图像</span><br>        gl.texImage2D(gl.TEXTURE_2D, <span class="hljs-number">0</span>, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, image)<br>        <span class="hljs-comment">// 将0号纹理传递给着色器</span><br>        gl.uniform1i(u_Sampler, <span class="hljs-number">0</span>)<br>        render()<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>修改main的方法</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">main</span>(<span class="hljs-params"></span>) </span>&#123;<br>    <span class="hljs-keyword">let</span> canvas: HTMLCanvasElement = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&quot;webgl&quot;</span>) <span class="hljs-keyword">as</span> HTMLCanvasElement<br>    CANVAS_WIDTH = canvas.width<br>    CANVAS_HEIGHT = canvas.height<br>    gl = getWebGLContext(canvas)<br>    program = createProgram(gl, V_IMAGE_SHADER_SOURCE, F_IMAGE_SHADER_SOURCE)<br>    initBufferWithImage(gl)<br>    initTextures(gl, program)<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><img src="/images/basicwebgl/basicwebgl07.png" srcset="/img/loading.gif" lazyload></p>
+<ul>
+<li>源码地址</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://gitee.com/limo/basic_webgl/tree/master/basic04">https://gitee.com/limo/basic_webgl/tree/master/basic04</a></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%B8%B8%E6%88%8F%E7%BC%96%E7%A8%8B/">游戏编程</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/JavaScript/">JavaScript</a>
+                    
+                      <a class="hover-with-bg" href="/tags/WebGl/">WebGl</a>
+                    
+                      <a class="hover-with-bg" href="/tags/parcel/">parcel</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/f144b02a/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">微信小游戏配置子包</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/685e55c8/">
+                        <span class="hidden-mobile">游戏中的平滑算法</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+  <!-- 备案信息 -->
+  <div class="beian">
+    <span>
+      <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+        浙ICP备20021627
+      </a>
+    </span>
+    
+  </div>
+
+
+  
+    <!-- cnzz Analytics Icon -->
+    <span id="cnzz_stat_icon_1260480291" style="display: none"></span>
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <!-- cnzz Analytics -->
+    <script defer src="//s4.cnzz.com/z_stat.php?id=1260480291&show=pic"
+            type="text/javascript"></script>
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

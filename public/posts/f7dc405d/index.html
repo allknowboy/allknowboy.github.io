@@ -1,0 +1,683 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.ico">
+  <link rel="icon" href="/img/favicon.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="个人博客">
+  <meta name="author" content="包打听">
+  <meta name="keywords" content="">
+  <meta name="description" content="PureMVC框架的目标很明确，即把程序分为低耦合的三层：Model、View和Controller。   PureMvc的结构Model与ProxyModel保存对Proxy对象的引用，Proxy负责操作数据模型，与远程服务器通信存取数据 View与MediatorView保存对Mediator对象的引用，由Mediator对象来操作具体的视图组件(ViewComponent, 在ccc中即为">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CocosCreator中使用pureMvc">
+<meta property="og:url" content="https://allknowboy.com/posts/f7dc405d/index.html">
+<meta property="og:site_name" content="Dream使用说明书">
+<meta property="og:description" content="PureMVC框架的目标很明确，即把程序分为低耦合的三层：Model、View和Controller。   PureMvc的结构Model与ProxyModel保存对Proxy对象的引用，Proxy负责操作数据模型，与远程服务器通信存取数据 View与MediatorView保存对Mediator对象的引用，由Mediator对象来操作具体的视图组件(ViewComponent, 在ccc中即为">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://allknowboy.com/images/CocosCreator%E4%B8%AD%E4%BD%BF%E7%94%A8pureMvc/image1.jpg">
+<meta property="og:image" content="https://allknowboy.com/images/CocosCreator%E4%B8%AD%E4%BD%BF%E7%94%A8pureMvc/xx.gif">
+<meta property="og:image" content="https://allknowboy.com/images/CocosCreator%E4%B8%AD%E4%BD%BF%E7%94%A8pureMvc/image2.jpg">
+<meta property="article:published_time" content="2019-07-09T03:17:43.000Z">
+<meta property="article:modified_time" content="2020-06-29T01:36:52.059Z">
+<meta property="article:author" content="包打听">
+<meta property="article:tag" content="pureMvc">
+<meta property="article:tag" content="架构">
+<meta property="article:tag" content="cocoscreator">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://allknowboy.com/images/CocosCreator%E4%B8%AD%E4%BD%BF%E7%94%A8pureMvc/image1.jpg">
+  
+  <title>CocosCreator中使用pureMvc - Dream使用说明书</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"allknowboy.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":1260480291,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Dream使用说明书</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="CocosCreator中使用pureMvc">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2019-07-09 11:17" pubdate>
+        2019年7月9日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      15k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      45 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">CocosCreator中使用pureMvc</h1>
+            
+            <div class="markdown-body">
+              <blockquote>
+<p>PureMVC框架的目标很明确，即把程序分为低耦合的三层：Model、View和Controller。</p>
+</blockquote>
+<p><img src="/images/CocosCreator%E4%B8%AD%E4%BD%BF%E7%94%A8pureMvc/image1.jpg" srcset="/img/loading.gif" lazyload alt="pureMvc的架构"></p>
+<h3 id="PureMvc的结构"><a href="#PureMvc的结构" class="headerlink" title="PureMvc的结构"></a>PureMvc的结构</h3><h4 id="Model与Proxy"><a href="#Model与Proxy" class="headerlink" title="Model与Proxy"></a>Model与Proxy</h4><p>Model保存对Proxy对象的引用，Proxy负责操作数据模型，与远程服务器通信存取数据</p>
+<h4 id="View与Mediator"><a href="#View与Mediator" class="headerlink" title="View与Mediator"></a>View与Mediator</h4><p>View保存对Mediator对象的引用，由Mediator对象来操作具体的视图组件(ViewComponent, 在ccc中即为继承自cc.Component的各种UI组件)，包括添加事件监听器，发送或者接受Notification，直接改变视图的状态<br><strong>改变视图状态要在Mediator实现，也可以在ViewComponent中即继承自cc.Component的组件脚步中实现修改视图的API在Mediator中调用</strong></p>
+<h4 id="Controller与Command"><a href="#Controller与Command" class="headerlink" title="Controller与Command"></a>Controller与Command</h4><p>Controller保存所有Command的映射，Command类是无状态，只有在需要的时候才被创建。Command可以获取Proxy对象并与之交互，发送Notification，执行其他的Command。</p>
+<h4 id="Facade与Core"><a href="#Facade与Core" class="headerlink" title="Facade与Core"></a>Facade与Core</h4><p>Facade类使用单例模式，他负责初始化核心层(Model, View和Controller)，可以访问他们的Public方法<br>实际的应用中，只要继承Facade类创建一个具体的Facade就可以实现整个MVC的模式，不需要在代码中导入编写Model，View和Controller类<br>Proxy,Mediator和Command就可以通过创建的Facade类来相互访问通信</p>
+<h4 id="Notification可以被用来触发Command的执行"><a href="#Notification可以被用来触发Command的执行" class="headerlink" title="Notification可以被用来触发Command的执行"></a>Notification可以被用来触发Command的执行</h4><p>Facade保存了Command与Notification之间的映射。当Notification(通知)被发出的时候，对应的Command(命令)就会自动的由Controller执行。Command实现复杂的交互，降低View和Model的耦合度</p>
+<h4 id="Mediator发送-声明-接收Notification"><a href="#Mediator发送-声明-接收Notification" class="headerlink" title="Mediator发送 声明 接收Notification"></a>Mediator发送 声明 接收Notification</h4><p>当用View注册Mediator时，Mediator的listNotification方法会被调用，以数组的形式返回该Mediator对象所关心的所有Notification，之后当系统其他角色发出同名的Notification(通知)的时候，关心这个通知的Mediator都会调用handleNotification方法并将Notification以参数的形式传递到方法<br><strong>我可以在多个Mediator中注册相同的Notification，当系统其他角色发送Notification的时候，我注册的多个Mediator都能收到，广播和收音机的关系</strong></p>
+<h4 id="Proxy只发送，不接收Notification"><a href="#Proxy只发送，不接收Notification" class="headerlink" title="Proxy只发送，不接收Notification"></a>Proxy只发送，不接收Notification</h4><p>在很多场景下Proxy需要发送Notification(通知)，比如：Proxy从远程服务器接收到数据时，发送Notification告诉系统，或当Proxy的数据被更新的时候，发送Notification告诉系统<br>如果让Proxy也监听Notification(通知)会导致它和View(视图)层和Controller(控制)层的耦合度太高<br>View和Controller必须监听Proxy发送的Notification，因为他们的职责就是通过可视化的界面使用户能与Proxy持有的数据交互<br>不过对View层和Controller层的改变不应该影响到Model层<br>MVC元设计模式的核心要素在purMvc中体现为Model类，View类和Controller类。为了简化程序开发，pureMvc应用了Facade模式<br>Facade是Model，View和Controller三者的“经纪人”。实际编写代码的你不用导入这三者的类文件，也不直接使用他们。Facade类已经在构造方法包含了对核心MVC三者单例的构造<br>一般的，实际的应用程序都有一个Facade子类，这个Facade类对象负责初始化Controller(控制器),建立Command与Notification名之间的映射，并执行一个Command注册所有的Model和View</p>
+<h3 id="Facade"><a href="#Facade" class="headerlink" title="Facade"></a>Facade</h3><ul>
+<li>AppFacade需要继承Facade类并实现IFacade接口</li>
+<li>StartupCommand是一个启动的Command负责启动所有</li>
+<li>在initializeController中注册了StartupCommand</li>
+<li>在startup方法中发送系统通知STARTUP，然后就注销了StartupCommand(初始化只需要执行一次)</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">import</span> StartupCommand <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./controller/StartupCommand&#x27;</span>;<br><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AppFacade</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">puremvc</span>.<span class="hljs-title">Facade</span> <span class="hljs-title">implements</span> <span class="hljs-title">puremvc</span>.<span class="hljs-title">IFacade</span> </span>&#123;<br>    public <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params"></span>)</span> &#123;<br>        <span class="hljs-built_in">super</span>()<br>    &#125;<br><br>    public <span class="hljs-keyword">static</span> STARTUP = <span class="hljs-string">&#x27;startup&#x27;</span><br><br>    private <span class="hljs-keyword">static</span> instance: AppFacade<br><br>    public <span class="hljs-keyword">static</span> getInstance(): AppFacade &#123;<br>        <span class="hljs-keyword">if</span> (AppFacade.instance == <span class="hljs-literal">null</span>) &#123;<br>            AppFacade.instance = <span class="hljs-keyword">new</span> AppFacade();<br>        &#125;<br>        <span class="hljs-keyword">return</span> &lt;AppFacade&gt;(AppFacade.instance);<br>    &#125;<br><br>    <span class="hljs-comment">// 启动pureMvc</span><br>    public startup() : <span class="hljs-keyword">void</span> &#123;<br>        <span class="hljs-built_in">this</span>.sendNotification(AppFacade.STARTUP)<br>        <span class="hljs-built_in">this</span>.removeCommand(AppFacade.STARTUP) <span class="hljs-comment">// 初始化完成之后注销STARTUP命令</span><br>    &#125;<br><br>    <span class="hljs-comment">// 以下是该类的初始化函数，创建改类实例后会自动调用改函数</span><br>    public initializeFacade() : <span class="hljs-keyword">void</span> &#123;<br>        <span class="hljs-built_in">super</span>.initializeFacade()<br>    &#125;<br><br>    <span class="hljs-comment">// 注册数据模型</span><br>    public initializeModel(): <span class="hljs-keyword">void</span> &#123;<br>        <span class="hljs-built_in">super</span>.initializeModel();<br>    &#125;<br><br>    <span class="hljs-comment">// 注册控制器</span><br>    public initializeController(): <span class="hljs-keyword">void</span> &#123;<br>        <span class="hljs-built_in">super</span>.initializeController();<br>        <span class="hljs-built_in">this</span>.registerCommand(AppFacade.STARTUP, StartupCommand);<br>    &#125;<br><br>    <span class="hljs-comment">// 注册View视图</span><br>    public initializeView(): <span class="hljs-keyword">void</span> &#123;<br>        <span class="hljs-built_in">super</span>.initializeView();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="Notification"><a href="#Notification" class="headerlink" title="Notification"></a>Notification</h3><blockquote>
+<p>pureMvc使用了观察者模式，所以各层之间能以一种松耦合的方式通信，并且与平台无关</p>
+</blockquote>
+<h4 id="Event与Notification"><a href="#Event与Notification" class="headerlink" title="Event与Notification"></a>Event与Notification</h4><p>Facade和Proxy只能发送Notification，Mediators既可以发送也可以接受Notification，Notification被映射到Command，同时Command也可以发送Notification。这是一种”发布/订阅”机制，所有的观察者都可以收到相同的通知。例如多个收音机收到同一个FM调频,当有音乐播放时候，所有人都能听到。</p>
+<h4 id="定义Notification和Event的常量"><a href="#定义Notification和Event的常量" class="headerlink" title="定义Notification和Event的常量"></a>定义Notification和Event的常量</h4><p>公共的Notification名称常量很适合定义在Facade中，所有的Notification交互的参与者都是Facade的协作者<br>当这些Notification的名称常量需要被其他程序访问时，我们可以使用单独的“Constants”类来存放这些Notification名称常量定义。<br><strong>不管什么时候都应该吧Notification名称定义为常量</strong></p>
+<h3 id="Command"><a href="#Command" class="headerlink" title="Command"></a>Command</h3><blockquote>
+<p>Facade实现类需要在启动时初始化Controller，建立Notification与Command的映射</p>
+</blockquote>
+<p>Controller会注册监听每一个Notification，当被通知到时，Controller会实例化该Notification对应的Command类的对象。最后将Notification作为参数传递给execute方法</p>
+<p>Command对象是无状态的，只有在需要的时候(Controller收到相应的Notification)才会被创建，并且在被执行(调用execute方法)之后就会被删除。所以不要在那些长生命周期的对象里面引用Command对象</p>
+<p><strong>Command是个短命鬼，生下来就为了爽一下，过把瘾就死</strong></p>
+<h4 id="SimpleCommand和MacroCommand"><a href="#SimpleCommand和MacroCommand" class="headerlink" title="SimpleCommand和MacroCommand"></a>SimpleCommand和MacroCommand</h4><p>Command要实现ICommand接口，在pureMvc中有两个类实现了ICommand接口，分别是SimpleCommand和MacroCommand</p>
+<ul>
+<li>SimpleCommand</li>
+</ul>
+<p>SimpleCommand只有一个execute方法，execute方法接受一个INotification实例作为参数。实际应用中，你只需要重写这个方法就行了。</p>
+<ul>
+<li>MacroCommand</li>
+</ul>
+<p>MacroCommand让你可以顺序执行多个Command。每个执行都会创建一个Command对象并传参一个对源Notification的引用</p>
+<p>MacroCommand在构造方法调用自身的initializeMacroCommand方法。实际应用中，需要重写这个方法，调用addSubCommand添加子Command,可以随意组合SimpleCommand和MacroCommand成为一个新的Command</p>
+<blockquote>
+<p>上文中的StartupCommand， 添加了3个初始化Command Proxy Mediator的Command</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">import</span> BootstrapCommands <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;./bootstrap/BootstrapCommands&quot;</span>;<br><span class="hljs-keyword">import</span> BootstrapModels <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;./bootstrap/BootstrapModels&quot;</span>;<br><span class="hljs-keyword">import</span> BootstrapViews <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;./bootstrap/BootstrapViews&quot;</span>;<br><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">StartupCommand</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">puremvc</span>.<span class="hljs-title">MacroCommand</span> </span>&#123;<br>    public <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params"></span>)</span> &#123;<br>        <span class="hljs-built_in">super</span>();<br>    &#125;<br><br>    public initializeMacroCommand(): <span class="hljs-keyword">void</span> &#123;<br>        <span class="hljs-built_in">this</span>.addSubCommand(BootstrapCommands);<br>        <span class="hljs-built_in">this</span>.addSubCommand(BootstrapModels);<br>        <span class="hljs-built_in">this</span>.addSubCommand(BootstrapViews);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>上文中注册一个游戏Proxy的简单命令</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">import</span> GameProxy <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;../../model/GameProxy&quot;</span>;<br><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BootstrapModels</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">puremvc</span>.<span class="hljs-title">SimpleCommand</span> </span>&#123;<br>    public <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params"></span>)</span> &#123;<br>        <span class="hljs-built_in">super</span>()<br>    &#125;<br><br>    public execute(notification: puremvc.INotification) : <span class="hljs-keyword">void</span> &#123;<br>        <span class="hljs-built_in">this</span>.facade.registerProxy(<span class="hljs-keyword">new</span> GameProxy())<br>    &#125;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="降低Command与Mediator-Proxy的耦合度"><a href="#降低Command与Mediator-Proxy的耦合度" class="headerlink" title="降低Command与Mediator Proxy的耦合度"></a>降低Command与Mediator Proxy的耦合度</h4><p>通过发送Notification通知Controller来执行Command，而且只能由Controller实例化执行Command。</p>
+<p>为了和系统其他部分交互与通信，Command可能需要</p>
+<ul>
+<li>注册,删除 Mediator Proxy 和 Command，或者检查他们是否已经注册</li>
+<li>发送Notification通知Command或者Mediator做出响应</li>
+<li>获取Proxy和Mediator对象并直接操作他们</li>
+</ul>
+<p>Command使我们可以很容易的切换视图元素状态或者传送数据给它</p>
+<p>Command可以调用多个Proxy执行事务处理，当事务结束后，发送Notification或者处理异常和失败</p>
+<p>Command与Mediator和Proxy交互，应避免Mediator和Proxy直接交互</p>
+<h3 id="Mediator"><a href="#Mediator" class="headerlink" title="Mediator"></a>Mediator</h3><p>Mediator是视图组件ViewComponent(在ccc中为继承cc.Component的UI控件脚本)交互的中间件</p>
+<h4 id="Mediator的职责"><a href="#Mediator的职责" class="headerlink" title="Mediator的职责"></a>Mediator的职责</h4><p>对基于pureMvc的应用程序来说，ViewComponent可以是任意的UIComponent，不用管所处的框架是什么，也不用管它有多少个组件。一个ViewComponent应该尽可能的把自己的状态和操作封装起来，只对外提供事件 方法和属性的简单API</p>
+<p>Mediator保存了一个或者多个ViewComponent的引用，通过ViewComponent自身提供的API管理他们</p>
+<p>Mediator的主要职责是处理ViewComponent派发的事件和系统其他部分发出来的Notification</p>
+<p>因为Mediator也会经常和Proxy交互，所以经常在Mediator的构造方法中取得Proxy实例的引用并保存在Mediator的属性中，这样避免频繁的获取Proxy实例</p>
+<p>Mediator负责处理与Controller层 Model层交互，在收到相关的Notification的时候更新ViewComponet</p>
+<h4 id="一个Mediator的事件响应会有以下几种处理"><a href="#一个Mediator的事件响应会有以下几种处理" class="headerlink" title="一个Mediator的事件响应会有以下几种处理"></a>一个Mediator的事件响应会有以下几种处理</h4><ul>
+<li>检查事件类型或者事件的自定义内容</li>
+<li>检查或者修改ViewComponent的属性或者提供的方法</li>
+<li>检查或者修改Proxy对象的属性或者提供的方法</li>
+<li>发送一个或者多个Notification， 通知别的Mediator或者Command做出反应(甚至可以发送给本人)</li>
+</ul>
+<h4 id="小Tips"><a href="#小Tips" class="headerlink" title="小Tips:"></a>小Tips:</h4><ul>
+<li>如果多个Mediator对同一个事件做出响应，那么应该发送应该Notification，然后相关的Mediator做出各自的响应</li>
+<li>如果应该Mediator需要和其他Mediator进行大量的交互，那么应该好方法是利益Command吧交互步骤定义在一个地方</li>
+<li>不应该让一个Mediator直接去获取调用其他的Mediator，在Mediator中定义这样的操作本身是错误的</li>
+<li>Proxy是有状态的，当状态发送变化时发送Notification通知Mediator，将数据的变化反映到视图</li>
+</ul>
+<h4 id="在Mediator中处理Notification"><a href="#在Mediator中处理Notification" class="headerlink" title="在Mediator中处理Notification"></a>在Mediator中处理Notification</h4><p>在Mediator实例化时，pureMvc会调用Mediator的listNotificationInterests方法查询关心的Notification，Mediator则在listNotificationInterests方法中以数据的形式返回这些Notification的名称。</p>
+<p>当这个数组例的一个Notification被系统的其他部分发出时，Mediator对象的handleNotification函数会被调用，并传入Notification参数</p>
+<h4 id="Mediator和Proxy之间-Mediator和其他Mediator之间的耦合"><a href="#Mediator和Proxy之间-Mediator和其他Mediator之间的耦合" class="headerlink" title="Mediator和Proxy之间 Mediator和其他Mediator之间的耦合"></a>Mediator和Proxy之间 Mediator和其他Mediator之间的耦合</h4><p>View本质上是显示Model的数据让用户能与之交互，我们期望一种单向依赖，即View依赖于Model，而Model却不依赖于View。View必须知道Model的数据是什么，但是Model却并不需要知道View的任何内容</p>
+<p>虽然Mediator可以任意访问Proxy，通过Proxy的API读取 操作Data Object,但是，由Command来做这些工作可以实现View和Model之间的松耦合</p>
+<p>如果一个Mediator有太多的Proxy及其他数据的操作，那么应该把这些代码重构在Command内，简化Mediator,把业务逻辑放到Command上，这样Command可以被View的其他部分重用，还会实现View和Model之间的松耦合提高扩展性</p>
+<h4 id="用户与ViewComponent和Mediator的交互"><a href="#用户与ViewComponent和Mediator的交互" class="headerlink" title="用户与ViewComponent和Mediator的交互"></a>用户与ViewComponent和Mediator的交互</h4><ul>
+<li>构建值对象用来作为Notification的参数传递</li>
+<li>Mediator收到的Notification包含Proxy处理的值对象</li>
+</ul>
+<h3 id="Proxy"><a href="#Proxy" class="headerlink" title="Proxy"></a>Proxy</h3><p>一个Proxy有可能管理对本地创建的数据结构的访问。它是Proxy的数据对象。</p>
+<p>RemoteProxy被用来封装与远程的数据访问。Proxy维护那些与RemoteService通信的对象，并控制对这些数据的访问。</p>
+<p>在这种情况下，调用Proxy获取数据的方法，然后等待Proxy在收到远程服务的数据后发出异步Notification</p>
+<h4 id="Proxy的职责"><a href="#Proxy的职责" class="headerlink" title="Proxy的职责"></a>Proxy的职责</h4><p>Proxy封装了数据模型，管理Data Object及对Data Object的访问，不管数据来自哪里，什么类型</p>
+<p>在pureMvc中，Proxy是个被Model注册的简单的数据持有者</p>
+<p>虽然Proxy类已经是完全可用的了，但是通常对于具体的应用你应该编写Proxy的子类，增加操作方法</p>
+<p>一般的Proxy有下面几种类型</p>
+<ul>
+<li>Remote Proxy 当Proxy管理的数据存放在远程终端，通过某种服务访问</li>
+<li>Proxy and Delegate,多个Proxy共享对应该服务的访问，由Delegate封装对服务的控制访问，确保响应正确的返回给相应的请求者</li>
+<li>Protection Proxy 用于数据对象的访问有不同的权限时</li>
+<li>Virtual Proxy 对创建开销很的数据对象进行管理</li>
+<li>Smart Proxy首次访问时载入对象到内容，并计算它被引用的次数，允许锁定确保其他对象不能修改</li>
+</ul>
+<h4 id="避免对Mediator的依赖"><a href="#避免对Mediator的依赖" class="headerlink" title="避免对Mediator的依赖"></a>避免对Mediator的依赖</h4><p>Proxy不监听Notification，也永远不会被通知，因为Proxy并不关心View的状态。但是，Proxy提供的方法和属性让其他角色关心数据</p>
+<p>Proxy对象不应该通过引用 操作 Mediator对象来通知系统它的DataObject发生了改变</p>
+<p>使用Notification的方式，把Model层和系统操作隔离开来，这样View层和Controller层被重构时不会影响到Model层</p>
+<p>但是反过来就不是这样了， Model层的改变很难不影响到View层和Controller层。毕竟，他们存在的目的就是让用户与Model层交互的</p>
+<h4 id="封装域逻辑"><a href="#封装域逻辑" class="headerlink" title="封装域逻辑"></a>封装域逻辑</h4><p>Model层中的改变总会造成View/Controller层的一些重构</p>
+<p>我们把Domain Logic 尽可能放在Proxy中实现，这样尽可能做到Model层与相关联的View层 Controller层的分离</p>
+<p><strong>域逻辑？？？？？</strong></p>
+<p>Proxy不仅仅用来管理数据对象的访问，而且用来封装数据对象的操作使数据维持在一个合法的状态</p>
+<p>比如计算营业税是一个Domain Logic，它应该放在Proxy中实现而不是Mediator或Command</p>
+<h4 id="与Remote-Proxy通信"><a href="#与Remote-Proxy通信" class="headerlink" title="与Remote Proxy通信"></a>与Remote Proxy通信</h4><p>Remote Proxy对象是一个从远程位置获取DataObject的Proxy。这通常意味着我们与它的交互是以异步的方式</p>
+<p>调用远程服务的查询并返回的结果，这个过程通常有以下几步</p>
+<ol>
+<li>一个ViewComponent触发一个事件，发起一个请求</li>
+<li>它的Mediator相应，获取相应的RemoteProxy设置它的查询内容</li>
+<li>Proxy的通过内部的HttpService初始化查询请求</li>
+<li>当服务器返回结果时，HttpService会触发回调，Proxy响应回调</li>
+<li>Proxy发送一个Notification表示请求成功，并把结果封装成值对象传递</li>
+<li>关心这个Notification的Mediator就会响应这个Notification并获得封装的值对象</li>
+<li>然后通过Mediator刷新View</li>
+</ol>
+<h3 id="pureMvc官网的PDF"><a href="#pureMvc官网的PDF" class="headerlink" title="pureMvc官网的PDF"></a>pureMvc官网的PDF</h3><p><a href="/images/CocosCreator%E4%B8%AD%E4%BD%BF%E7%94%A8pureMvc/PureMVC_IIBP_Chinese.pdf">PureMVC_IIBP_Chinese.pdf</a></p>
+<h3 id="pureMvc与CocosCreator的demo"><a href="#pureMvc与CocosCreator的demo" class="headerlink" title="pureMvc与CocosCreator的demo"></a>pureMvc与CocosCreator的demo</h3><p><img src="/images/CocosCreator%E4%B8%AD%E4%BD%BF%E7%94%A8pureMvc/xx.gif" srcset="/img/loading.gif" lazyload alt="展示图"></p>
+<h4 id="代码的目录结构"><a href="#代码的目录结构" class="headerlink" title="代码的目录结构"></a>代码的目录结构</h4><p><img src="/images/CocosCreator%E4%B8%AD%E4%BD%BF%E7%94%A8pureMvc/image2.jpg" srcset="/img/loading.gif" lazyload alt="展示图"></p>
+<h4 id="Start"><a href="#Start" class="headerlink" title="Start"></a>Start</h4><ul>
+<li>用来启动pureMvc的地方</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-keyword">import</span> AppFacade <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;./AppFacade&quot;</span>;<br><span class="hljs-keyword">const</span> &#123;ccclass, property&#125; = cc._decorator;<br><br><span class="hljs-meta">@ccclass</span><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Start</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">cc</span>.<span class="hljs-title">Component</span> </span>&#123;<br><br>    start () &#123;<br>        AppFacade.getInstance().startup();<br>    &#125;<br><br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<h4 id="Constans"><a href="#Constans" class="headerlink" title="Constans"></a>Constans</h4><ul>
+<li>用来保存图片下载结果Notification常量的地方</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-keyword">export</span> <span class="hljs-built_in">enum</span> ImageDownLoadConstants &#123;<br>    DOWN_IMAGE_SUCCESS = <span class="hljs-string">&#x27;down_image_success&#x27;</span>,<br>    DOWN_IMAGE_FAIL = <span class="hljs-string">&#x27;down_image_fail&#x27;</span>,<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="StartViewMediator"><a href="#StartViewMediator" class="headerlink" title="StartViewMediator"></a>StartViewMediator</h4><ul>
+<li>listNotificationInterests表示要关心的Notification</li>
+<li>handleNotification是处理Notification的地方</li>
+<li>onRegister中加入了按钮的监听<ul>
+<li>构建了一个ImageRequestVo的值对象用来传递需要下载的图片信息</li>
+<li>使用sendNotification发送下载消息给Command(如果直接使用Proxy会增加耦合)</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-keyword">import</span> &#123; GameCommand &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./../controller/commands/GameCommand&#x27;</span>;<br><span class="hljs-keyword">import</span> &#123; ImageVo &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../model/vos/ImageVo&#x27;</span>;<br><span class="hljs-keyword">import</span> &#123; ImageRequestVo &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../model/vos/ImageRequestVo&#x27;</span>;<br><span class="hljs-keyword">import</span> &#123; ImageDownLoadConstants &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../Constants&#x27;</span>;<br><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">StartViewMediator</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">puremvc</span>.<span class="hljs-title">Mediator</span></span>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> NAME = <span class="hljs-string">&#x27;StartViewMediator&#x27;</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params">viewComponent: <span class="hljs-built_in">any</span></span>)</span> &#123;<br>        <span class="hljs-built_in">super</span>(StartViewMediator.NAME, viewComponent)<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> listNotificationInterests() : <span class="hljs-built_in">string</span>[] &#123;<br>        <span class="hljs-keyword">return</span> [<br>            ImageDownLoadConstants.DOWN_IMAGE_SUCCESS,<br>            ImageDownLoadConstants.DOWN_IMAGE_FAIL<br>        ]<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> handleNotification( notification: puremvc.INotification) : <span class="hljs-built_in">void</span> &#123;<br><br>        <span class="hljs-built_in">console</span>.log(notification)<br>        <span class="hljs-keyword">switch</span>(notification.getName()) &#123;<br>            <span class="hljs-keyword">case</span> ImageDownLoadConstants.DOWN_IMAGE_SUCCESS: &#123;<br>                <span class="hljs-keyword">const</span> data: ImageVo = notification.getBody()<br>                <span class="hljs-built_in">this</span>.viewComponent.setSprite(data.texture)<br>                <span class="hljs-keyword">break</span><br>            &#125;<br>        &#125;<br><br>    &#125;<br><br>    <span class="hljs-keyword">public</span> onRegister() : <span class="hljs-built_in">void</span> &#123;<br>        <span class="hljs-built_in">this</span>.viewComponent.testButton.node.on(<span class="hljs-string">&#x27;click&#x27;</span>, <span class="hljs-function">() =&gt;</span> &#123;<br>            <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;click.&#x27;</span>)<br>            <span class="hljs-built_in">this</span>.facade.sendNotification(GameCommand.DOWN_IMAGE, <span class="hljs-keyword">new</span> ImageRequestVo(<span class="hljs-string">&#x27;https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2738245099,987323490&amp;fm=26&amp;gp=0.jpg&#x27;</span>, <span class="hljs-string">&#x27;jpg&#x27;</span>))<br>        &#125;)<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> onRemove() : <span class="hljs-built_in">void</span> &#123;<br><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="StartView"><a href="#StartView" class="headerlink" title="StartView"></a>StartView</h4><ul>
+<li>CocosCreator中的脚步(作为当前系统下的ViewComponent)</li>
+<li>根据生命周期加入了注册和移除Mediator的方法</li>
+<li>暴露了setSprite的方法可以修改图片</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-keyword">import</span> AppFacade <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;../../AppFacade&quot;</span>;<br><span class="hljs-keyword">import</span> StartViewMediator <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;../StartViewMediator&quot;</span>;<br><br><span class="hljs-keyword">const</span> &#123;ccclass, property&#125; = cc._decorator;<br><br><span class="hljs-meta">@ccclass</span><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">StartView</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">cc</span>.<span class="hljs-title">Component</span> </span>&#123;<br><br>    <span class="hljs-meta">@property</span>(cc.Button) testButton: cc.Button = <span class="hljs-literal">null</span>;<br><br>    <span class="hljs-meta">@property</span>(cc.Sprite) downImage: cc.Sprite = <span class="hljs-literal">null</span><br><br>    start () &#123;<br>        <span class="hljs-comment">// 注册</span><br>        AppFacade.getInstance().registerMediator(<span class="hljs-keyword">new</span> StartViewMediator(<span class="hljs-built_in">this</span>))<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-title">onDestroy</span>(<span class="hljs-params"></span>)</span> &#123;<br>        <span class="hljs-comment">// 移除</span><br>        AppFacade.getInstance().removeMediator(StartViewMediator.NAME);<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 设置图片</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param </span>tex </span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-title">setSprite</span>(<span class="hljs-params">tex: cc.Texture2D</span>)</span> &#123;<br>        <span class="hljs-built_in">this</span>.downImage.spriteFrame = <span class="hljs-keyword">new</span> cc.SpriteFrame(tex)<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="GameProxy"><a href="#GameProxy" class="headerlink" title="GameProxy"></a>GameProxy</h4><ul>
+<li>NAME命名当前的Proxy</li>
+<li>fetchTest执行当前的下载图片的操作</li>
+<li>在异步下载完成后使用sendNotification发送结果给系统</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-keyword">import</span> &#123; ImageVo &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./vos/ImageVo&#x27;</span>;<br><span class="hljs-keyword">import</span> &#123; ImageRequestVo &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./vos/ImageRequestVo&#x27;</span>;<br><span class="hljs-keyword">import</span> &#123; ImageDownLoadConstants &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../Constants&#x27;</span>;<br><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">GameProxy</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">puremvc</span>.<span class="hljs-title">Proxy</span>  </span>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> NAME = <span class="hljs-string">&#x27;GameProxy&#x27;</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params"></span>)</span> &#123;<br>        <span class="hljs-built_in">super</span>(GameProxy.NAME)<br>    &#125;<br>    <span class="hljs-comment">// 重置数据</span><br>    <span class="hljs-keyword">public</span> reset() : <span class="hljs-built_in">void</span> &#123;<br><br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-title">fetchTest</span>(<span class="hljs-params">request: ImageRequestVo</span>)</span> &#123;<br>        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;fetchTest&#x27;</span>)<br>        cc.loader.load(&#123;<span class="hljs-attr">url</span>: request.url, <span class="hljs-attr">type</span>: request.ext&#125;, <span class="hljs-function">(<span class="hljs-params">err, tex</span>) =&gt;</span> &#123;<br>            <span class="hljs-keyword">if</span>(err) &#123;<br>                <span class="hljs-built_in">this</span>.facade.sendNotification(ImageDownLoadConstants.DOWN_IMAGE_FAIL)<br>                <span class="hljs-keyword">return</span><br>            &#125;<br>            <span class="hljs-built_in">this</span>.facade.sendNotification(ImageDownLoadConstants.DOWN_IMAGE_SUCCESS, <span class="hljs-keyword">new</span> ImageVo(<span class="hljs-string">&#x27;down_image&#x27;</span>, tex))<br>        &#125;)<br>    &#125;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="ImageVo"><a href="#ImageVo" class="headerlink" title="ImageVo"></a>ImageVo</h4><ul>
+<li>值对象</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ImageVo</span> </span>&#123;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 初始化</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param </span>name </span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param </span>texture </span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params"><span class="hljs-keyword">public</span> name: <span class="hljs-built_in">string</span>, <span class="hljs-keyword">public</span> texture: cc.Texture2D</span>)</span> &#123;<br><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="ImageRequestVo"><a href="#ImageRequestVo" class="headerlink" title="ImageRequestVo"></a>ImageRequestVo</h4><ul>
+<li>值对象</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ImageRequestVo</span> </span>&#123;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 请求初始化</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param </span>url </span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param </span>ext </span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params"><span class="hljs-keyword">public</span> url: <span class="hljs-built_in">string</span>, <span class="hljs-keyword">public</span> ext?: <span class="hljs-built_in">string</span></span>)</span> &#123;<br><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="StartupCommand"><a href="#StartupCommand" class="headerlink" title="StartupCommand"></a>StartupCommand</h4><ul>
+<li>启动初始化的Command</li>
+<li>加了多个子Command</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-keyword">import</span> BootstrapCommands <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;./bootstrap/BootstrapCommands&quot;</span>;<br><span class="hljs-keyword">import</span> BootstrapModels <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;./bootstrap/BootstrapModels&quot;</span>;<br><span class="hljs-keyword">import</span> BootstrapViews <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;./bootstrap/BootstrapViews&quot;</span>;<br><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">StartupCommand</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">puremvc</span>.<span class="hljs-title">MacroCommand</span> </span>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params"></span>)</span> &#123;<br>        <span class="hljs-built_in">super</span>();<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> initializeMacroCommand(): <span class="hljs-built_in">void</span> &#123;<br>        <span class="hljs-built_in">this</span>.addSubCommand(BootstrapCommands);<br>        <span class="hljs-built_in">this</span>.addSubCommand(BootstrapModels);<br>        <span class="hljs-built_in">this</span>.addSubCommand(BootstrapViews);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="GameCommand"><a href="#GameCommand" class="headerlink" title="GameCommand"></a>GameCommand</h4><ul>
+<li>执行下载图片操作的Command</li>
+<li>通过execute方法调用Proxy执行下载操作</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-keyword">import</span> &#123; ImageRequestVo &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../../model/vos/ImageRequestVo&#x27;</span>;<br><span class="hljs-keyword">import</span> GameProxy <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;../../model/GameProxy&quot;</span>;<br><br><span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">GameCommand</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">puremvc</span>.<span class="hljs-title">SimpleCommand</span> </span>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params"></span>)</span> &#123;<br>        <span class="hljs-built_in">super</span>()<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> NAME = <span class="hljs-string">&#x27;GameCommand&#x27;</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> DOWN_IMAGE = <span class="hljs-string">&#x27;down_image&#x27;</span><br>    <span class="hljs-comment">// 注册的方法</span><br>    <span class="hljs-keyword">public</span> register() : <span class="hljs-built_in">void</span> &#123;<br>        <span class="hljs-built_in">this</span>.facade.registerCommand(GameCommand.DOWN_IMAGE, GameCommand)<br>    &#125;<br><br>    <span class="hljs-comment">// 执行的方法</span><br>    <span class="hljs-keyword">public</span> execute( notification: puremvc.INotification) : <span class="hljs-built_in">void</span> &#123;<br>        <span class="hljs-keyword">const</span> gameProxy: GameProxy = &lt;GameProxy&gt;(<span class="hljs-built_in">this</span>.facade.retrieveProxy(GameProxy.NAME))<br>        <span class="hljs-keyword">const</span> data = notification.getBody()<br>        <span class="hljs-keyword">switch</span>(notification.getName()) &#123;<br>            <span class="hljs-keyword">case</span> GameCommand.DOWN_IMAGE: &#123;<br>                gameProxy.fetchTest(data <span class="hljs-keyword">as</span> ImageRequestVo)<br>                <span class="hljs-keyword">break</span><br>            &#125;<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="BootstrapViews"><a href="#BootstrapViews" class="headerlink" title="BootstrapViews"></a>BootstrapViews</h4><ul>
+<li>初始化需要用到的view的Command</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BootstrapViews</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">puremvc</span>.<span class="hljs-title">SimpleCommand</span> /* <span class="hljs-title">implements</span> <span class="hljs-title">puremvc</span>.<span class="hljs-title">ICommand</span> */</span>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params"></span>)</span> &#123;<br>        <span class="hljs-built_in">super</span>();<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> execute(notification: puremvc.INotification): <span class="hljs-built_in">void</span> &#123;<br><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="BootstrapModels"><a href="#BootstrapModels" class="headerlink" title="BootstrapModels"></a>BootstrapModels</h4><ul>
+<li>初始化需要用到的Proxy的Command</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-keyword">import</span> GameProxy <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;../../model/GameProxy&quot;</span>;<br><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BootstrapModels</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">puremvc</span>.<span class="hljs-title">SimpleCommand</span> /* <span class="hljs-title">implements</span> <span class="hljs-title">puremvc</span>.<span class="hljs-title">ICommand</span> */</span>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params"></span>)</span> &#123;<br>        <span class="hljs-built_in">super</span>()<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> execute(notification: puremvc.INotification) : <span class="hljs-built_in">void</span> &#123;<br>        <span class="hljs-built_in">this</span>.facade.registerProxy(<span class="hljs-keyword">new</span> GameProxy())<br>    &#125;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="BootstrapCommands"><a href="#BootstrapCommands" class="headerlink" title="BootstrapCommands"></a>BootstrapCommands</h4><ul>
+<li>初始化需要用到的Command的Command</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-keyword">import</span> &#123; GameCommand &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./../commands/GameCommand&#x27;</span>;<br><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BootstrapCommands</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">puremvc</span>.<span class="hljs-title">SimpleCommand</span> /* <span class="hljs-title">implements</span> <span class="hljs-title">puremvc</span>.<span class="hljs-title">ICommand</span> */</span>&#123;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params"></span>)</span> &#123;<br>        <span class="hljs-built_in">super</span>()<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> execute(notification: puremvc.INotification) : <span class="hljs-built_in">void</span> &#123;<br>        (<span class="hljs-keyword">new</span> GameCommand()).register()<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%B8%B8%E6%88%8F%E7%BC%96%E7%A8%8B/">游戏编程</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/pureMvc/">pureMvc</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%9E%B6%E6%9E%84/">架构</a>
+                    
+                      <a class="hover-with-bg" href="/tags/cocoscreator/">cocoscreator</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/d4f6582c/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">CocosCreator与微信小游戏</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/f144b02a/">
+                        <span class="hidden-mobile">微信小游戏配置子包</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+  <!-- 备案信息 -->
+  <div class="beian">
+    <span>
+      <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+        浙ICP备20021627
+      </a>
+    </span>
+    
+  </div>
+
+
+  
+    <!-- cnzz Analytics Icon -->
+    <span id="cnzz_stat_icon_1260480291" style="display: none"></span>
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <!-- cnzz Analytics -->
+    <script defer src="//s4.cnzz.com/z_stat.php?id=1260480291&show=pic"
+            type="text/javascript"></script>
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
