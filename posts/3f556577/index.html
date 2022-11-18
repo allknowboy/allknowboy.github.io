@@ -1,0 +1,615 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.ico">
+  <link rel="icon" href="/img/favicon.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="个人博客">
+  <meta name="author" content="包打听">
+  <meta name="keywords" content="">
+  <meta name="description" content="前言&amp;emsp;&amp;emsp;nodejs操作数据库，有许多方便的orm框架。Sequlize的操作就很方便，define定义数据表的类型，就能方便的使用Sequlize提供的各种方法。不过v5版本进行了比较大的改动，使用typescript开发不是很方便，最后发现了typeorm，它和typescript简直是绝配。 安装typeormtypeorm的官网：https:&#x2F;&#x2F;typeorm.io&#x2F;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="开始使用typeorm">
+<meta property="og:url" content="https://allknowboy.com/posts/3f556577/index.html">
+<meta property="og:site_name" content="Dream使用说明书">
+<meta property="og:description" content="前言&amp;emsp;&amp;emsp;nodejs操作数据库，有许多方便的orm框架。Sequlize的操作就很方便，define定义数据表的类型，就能方便的使用Sequlize提供的各种方法。不过v5版本进行了比较大的改动，使用typescript开发不是很方便，最后发现了typeorm，它和typescript简直是绝配。 安装typeormtypeorm的官网：https:&#x2F;&#x2F;typeorm.io&#x2F;">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://allknowboy.com/images/typeormstart/typeorm1.png">
+<meta property="og:image" content="https://allknowboy.com/images/typeormstart/typeorm3.png">
+<meta property="og:image" content="https://allknowboy.com/images/typeormstart/typeorm2.png">
+<meta property="og:image" content="https://allknowboy.com/images/typeormstart/typeorm4.png">
+<meta property="og:image" content="https://allknowboy.com/images/typeormstart/typeorm5.png">
+<meta property="article:published_time" content="2019-04-09T21:46:40.000Z">
+<meta property="article:modified_time" content="2022-11-18T04:36:27.225Z">
+<meta property="article:author" content="包打听">
+<meta property="article:tag" content="JavaScript">
+<meta property="article:tag" content="typescript">
+<meta property="article:tag" content="typeorm">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://allknowboy.com/images/typeormstart/typeorm1.png">
+  
+  <title>开始使用typeorm - Dream使用说明书</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"allknowboy.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":1260480291,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Dream使用说明书</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="开始使用typeorm">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2019-04-09 21:46" pubdate>
+        2019年4月9日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      7.1k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      22 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">开始使用typeorm</h1>
+            
+            <div class="markdown-body">
+              <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>&emsp;&emsp;nodejs操作数据库，有许多方便的orm框架。Sequlize的操作就很方便，define定义数据表的类型，就能方便的使用Sequlize提供的各种方法。不过v5版本进行了比较大的改动，使用typescript开发不是很方便，最后发现了typeorm，它和typescript简直是绝配。</p>
+<h2 id="安装typeorm"><a href="#安装typeorm" class="headerlink" title="安装typeorm"></a>安装typeorm</h2><p><strong>typeorm</strong>的官网：<a target="_blank" rel="noopener" href="https://typeorm.io/">https://typeorm.io/</a>  </p>
+<ul>
+<li>安装typeorm</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">npm install reflect-metadata<br>npm install typeorm<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>安装数据库操作类库(这里使用的Sqlite3)</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">npm install sqlite3<br></code></pre></td></tr></table></figure>
+
+<h2 id="先新建实体类"><a href="#先新建实体类" class="headerlink" title="先新建实体类"></a>先新建实体类</h2><ul>
+<li>Photo.ts</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-keyword">import</span> &#123; Entity, PrimaryGeneratedColumn, Column &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;typeorm&quot;</span>;<br><br><span class="hljs-meta">@Entity</span>()<br><span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Photo</span> </span>&#123;<br>    <span class="hljs-meta">@PrimaryGeneratedColumn</span>()<br>    <span class="hljs-attr">id</span>: <span class="hljs-built_in">number</span> = <span class="hljs-number">0</span>;<br><br>    <span class="hljs-meta">@Column</span>(&#123;<br>        <span class="hljs-attr">length</span>: <span class="hljs-number">100</span><br>    &#125;)<br>    <span class="hljs-attr">name</span>: <span class="hljs-built_in">string</span> = <span class="hljs-string">&#x27;&#x27;</span>;<br><br>    <span class="hljs-meta">@Column</span>(<span class="hljs-string">&#x27;text&#x27;</span>)<br>    <span class="hljs-attr">description</span>: <span class="hljs-built_in">string</span> = <span class="hljs-string">&#x27;&#x27;</span>;<br><br>    <span class="hljs-meta">@Column</span>()<br>    <span class="hljs-attr">filename</span>: <span class="hljs-built_in">string</span> = <span class="hljs-string">&#x27;&#x27;</span>;<br><br>    <span class="hljs-meta">@Column</span>(<span class="hljs-string">&quot;double&quot;</span>)<br>    <span class="hljs-attr">views</span>: <span class="hljs-built_in">number</span> = <span class="hljs-number">0</span>;<br><br>    <span class="hljs-meta">@Column</span>()<br>    <span class="hljs-attr">isPublished</span>: <span class="hljs-built_in">boolean</span> = <span class="hljs-literal">false</span>;<br><br>    <span class="hljs-meta">@Column</span>(<span class="hljs-string">&#x27;simple-array&#x27;</span>)<br>    <span class="hljs-attr">times</span>: <span class="hljs-built_in">string</span>[] = [];<br><br>    <span class="hljs-meta">@Column</span>(<span class="hljs-string">&quot;simple-json&quot;</span>)<br>    <span class="hljs-attr">profile</span>: &#123; <span class="hljs-attr">name</span>: <span class="hljs-built_in">string</span>, <span class="hljs-attr">nickname</span>: <span class="hljs-built_in">string</span> &#125; = &#123; <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;&#x27;</span>, <span class="hljs-attr">nickname</span>: <span class="hljs-string">&#x27;&#x27;</span>&#125;;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="入口类"><a href="#入口类" class="headerlink" title="入口类"></a>入口类</h2><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;reflect-metadata&#x27;</span>; <span class="hljs-comment">// 需要优先导入</span><br><span class="hljs-keyword">import</span> &#123; createConnection, getManager &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;typeorm&#x27;</span><br><span class="hljs-keyword">import</span> path <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;path&#x27;</span>;<br><span class="hljs-keyword">import</span> &#123; Photo &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./entity/Photo&#x27;</span>;<br><br><span class="hljs-comment">// 创建连接的方法</span><br>createConnection(&#123;<br>    <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;sqlite&#x27;</span>, <span class="hljs-comment">// 数据库的相关配置</span><br>    <span class="hljs-attr">database</span>: path.resolve(__dirname, <span class="hljs-string">&#x27;./db.sqlite&#x27;</span>),<br>    <span class="hljs-attr">entities</span>: [<br>        Photo <span class="hljs-comment">// 需要加入的实体</span><br>    ],<br>    <span class="hljs-attr">synchronize</span>: <span class="hljs-literal">true</span>,<br>&#125;).then(<span class="hljs-keyword">async</span> connection =&gt; &#123;<br>    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;连接成功&#x27;</span>);<br>    <span class="hljs-comment">// 可以进行相关的操作</span><br>&#125;).catch(<span class="hljs-function"><span class="hljs-params">err</span> =&gt;</span> &#123;<br>    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;连接失败&#x27;</span>, err);<br>&#125;);<br></code></pre></td></tr></table></figure>
+
+<h2 id="简单的增删改查"><a href="#简单的增删改查" class="headerlink" title="简单的增删改查"></a>简单的增删改查</h2><h3 id="增"><a href="#增" class="headerlink" title="增"></a>增</h3><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-comment">// 增</span><br><span class="hljs-keyword">let</span> photo = <span class="hljs-keyword">new</span> Photo();<br>photo.name = <span class="hljs-string">&quot;Me and Bears&quot;</span>;<br>photo.description = <span class="hljs-string">&quot;I am near polar bears&quot;</span>;<br>photo.filename = <span class="hljs-string">&quot;photo-with-bears.jpg&quot;</span>;<br>photo.views = <span class="hljs-number">1</span>;<br>photo.isPublished = <span class="hljs-literal">true</span>;<br>photo.times.push(<span class="hljs-string">&#x27;entitys1&#x27;</span>);<br>photo.times.push(<span class="hljs-string">&#x27;entitys2&#x27;</span>);<br>photo.times.push(<span class="hljs-string">&#x27;entitys3&#x27;</span>);<br>photo.profile.name = <span class="hljs-string">&#x27;link&#x27;</span>;<br>photo.profile.nickname = <span class="hljs-string">&#x27;me&#x27;</span>;<br>getManager().save(photo);<br></code></pre></td></tr></table></figure>
+
+<p><img src="/images/typeormstart/typeorm1.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="改"><a href="#改" class="headerlink" title="改"></a>改</h3><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-keyword">const</span> photoRepository = getManager().getRepository(Photo);<br><span class="hljs-keyword">const</span> photo = <span class="hljs-keyword">await</span> photoRepository.findOne(&#123;<br>    <span class="hljs-attr">id</span>: <span class="hljs-number">1</span><br>&#125;);<br><span class="hljs-keyword">if</span>(photo)&#123;<br>    photo.views = <span class="hljs-number">10086</span>;<br>    photoRepository.save(photo);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><img src="/images/typeormstart/typeorm3.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="查"><a href="#查" class="headerlink" title="查"></a>查</h3><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-keyword">const</span> photoRepository = getManager().getRepository(Photo);<br><span class="hljs-keyword">const</span> photos = <span class="hljs-keyword">await</span> photoRepository.findOne(&#123;<br>    <span class="hljs-attr">id</span>: <span class="hljs-number">1</span><br>&#125;)<br><span class="hljs-built_in">console</span>.log(photos);<br></code></pre></td></tr></table></figure>
+
+<p><img src="/images/typeormstart/typeorm2.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="删"><a href="#删" class="headerlink" title="删"></a>删</h3><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-keyword">const</span> photoRepository = getManager().getRepository(Photo);<br><span class="hljs-keyword">const</span> photo = <span class="hljs-keyword">await</span> photoRepository.findOne(&#123;<br>    <span class="hljs-attr">id</span>: <span class="hljs-number">1</span><br>&#125;);<br><span class="hljs-keyword">if</span>(photo) &#123;<br>    photoRepository.remove(photo);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><img src="/images/typeormstart/typeorm4.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="SQLITE的管理工具"><a href="#SQLITE的管理工具" class="headerlink" title="SQLITE的管理工具"></a>SQLITE的管理工具</h2><ul>
+<li>SQLLiteStudio(简单方便的Sqlite管理工具) </li>
+</ul>
+<p>下载地址:<a target="_blank" rel="noopener" href="https://www.cr173.com/soft/94247.html">https://www.cr173.com/soft/94247.html</a></p>
+<p><img src="/images/typeormstart/typeorm5.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="Column的类型"><a href="#Column的类型" class="headerlink" title="Column的类型"></a>Column的类型</h2><ul>
+<li>一些特殊类型 不用自己写入 自动生成</li>
+<li>时区好像有问题 是格林威治的时区</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-comment">// 创建时间</span><br><span class="hljs-meta">@CreateDateColumn</span>()<br><span class="hljs-attr">createDate</span>: <span class="hljs-built_in">Date</span> = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>();<br><span class="hljs-comment">// 修改时间</span><br><span class="hljs-meta">@UpdateDateColumn</span>()<br><span class="hljs-attr">updateDate</span>: <span class="hljs-built_in">Date</span> = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>();<br><span class="hljs-comment">// 数据版本</span><br><span class="hljs-meta">@VersionColumn</span>()<br><span class="hljs-attr">version</span>: <span class="hljs-built_in">number</span> = <span class="hljs-number">0</span>;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>枚举类型的字段</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-keyword">export</span> <span class="hljs-built_in">enum</span> UserRole &#123;<br>    ADMIN = <span class="hljs-string">&quot;admin&quot;</span>,<br>    EDITOR = <span class="hljs-string">&quot;editor&quot;</span>,<br>    GHOST = <span class="hljs-string">&quot;ghost&quot;</span><br>&#125;<br><br><span class="hljs-meta">@Entity</span>()<br><span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">User</span> </span>&#123;<br>    <span class="hljs-meta">@PrimaryGeneratedColumn</span>()<br>    <span class="hljs-attr">id</span>: <span class="hljs-built_in">number</span>;<br><br>    <span class="hljs-meta">@Column</span>(&#123;<br>        <span class="hljs-attr">type</span>: <span class="hljs-string">&quot;enum&quot;</span>,<br>        <span class="hljs-attr">enum</span>: UserRole,<br>        <span class="hljs-attr">default</span>: UserRole.GHOST<br>    &#125;)<br>    <span class="hljs-attr">role</span>: UserRole<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>简单的数组类型</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-meta">@Entity</span>()<br><span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">User</span> </span>&#123;<br><br>    <span class="hljs-meta">@PrimaryGeneratedColumn</span>()<br>    <span class="hljs-attr">id</span>: <span class="hljs-built_in">number</span>;<br><br>    <span class="hljs-meta">@Column</span>(<span class="hljs-string">&quot;simple-array&quot;</span>)<br>    <span class="hljs-attr">names</span>: <span class="hljs-built_in">string</span>[];<br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>简单的json类型</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-meta">@Entity</span>()<br><span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">User</span> </span>&#123;<br><br>    <span class="hljs-meta">@PrimaryGeneratedColumn</span>()<br>    <span class="hljs-attr">id</span>: <span class="hljs-built_in">number</span>;<br><br>    <span class="hljs-meta">@Column</span>(<span class="hljs-string">&quot;simple-json&quot;</span>)<br>    <span class="hljs-attr">profile</span>: &#123; <span class="hljs-attr">name</span>: <span class="hljs-built_in">string</span>, <span class="hljs-attr">nickname</span>: <span class="hljs-built_in">string</span> &#125;;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>实体类的继承</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-keyword">export</span> <span class="hljs-keyword">abstract</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Content</span> </span>&#123;<br><br>    <span class="hljs-meta">@PrimaryGeneratedColumn</span>()<br>    <span class="hljs-attr">id</span>: <span class="hljs-built_in">number</span>;<br><br>    <span class="hljs-meta">@Column</span>()<br>    <span class="hljs-attr">title</span>: <span class="hljs-built_in">string</span>;<br><br>    <span class="hljs-meta">@Column</span>()<br>    <span class="hljs-attr">description</span>: <span class="hljs-built_in">string</span>;<br><br>&#125;<br><span class="hljs-meta">@Entity</span>()<br><span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Photo</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Content</span> </span>&#123;<br><br>    <span class="hljs-meta">@Column</span>()<br>    <span class="hljs-attr">size</span>: <span class="hljs-built_in">string</span>;<br><br>&#125;<br><br><span class="hljs-meta">@Entity</span>()<br><span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Question</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Content</span> </span>&#123;<br><br>    <span class="hljs-meta">@Column</span>()<br>    <span class="hljs-attr">answersCount</span>: <span class="hljs-built_in">number</span>;<br><br>&#125;<br><br><span class="hljs-meta">@Entity</span>()<br><span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Post</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Content</span> </span>&#123;<br><br>    <span class="hljs-meta">@Column</span>()<br>    <span class="hljs-attr">viewCount</span>: <span class="hljs-built_in">number</span>;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="使用实体类作为类型"><a href="#使用实体类作为类型" class="headerlink" title="使用实体类作为类型"></a>使用实体类作为类型</h2><ul>
+<li>名字的实体</li>
+<li>只是用来表示类型</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-keyword">import</span> &#123;Entity, Column&#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;typeorm&quot;</span>;<br><br><span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Name</span> </span>&#123;<br><br>    <span class="hljs-meta">@Column</span>()<br>    <span class="hljs-attr">first</span>: <span class="hljs-built_in">string</span>;<br><br>    <span class="hljs-meta">@Column</span>()<br>    <span class="hljs-attr">last</span>: <span class="hljs-built_in">string</span>;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>使用类型</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-keyword">import</span> &#123;Entity, PrimaryGeneratedColumn, Column&#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;typeorm&quot;</span>;<br><span class="hljs-keyword">import</span> &#123;Name&#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;./Name&quot;</span>;<br><br><span class="hljs-meta">@Entity</span>()<br><span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">User</span> </span>&#123;<br><br>    <span class="hljs-meta">@PrimaryGeneratedColumn</span>()<br>    <span class="hljs-attr">id</span>: <span class="hljs-built_in">string</span>;<br><br>    <span class="hljs-meta">@Column</span>(<span class="hljs-function"><span class="hljs-params">type</span> =&gt;</span> Name)<br>    <span class="hljs-attr">name</span>: Name;<br><br>    <span class="hljs-meta">@Column</span>()<br>    <span class="hljs-attr">isActive</span>: <span class="hljs-built_in">boolean</span>;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="一对一的单向实体连接"><a href="#一对一的单向实体连接" class="headerlink" title="一对一的单向实体连接"></a>一对一的单向实体连接</h2><ul>
+<li>建立一个实体类</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-keyword">import</span> &#123;Entity, PrimaryGeneratedColumn, Column&#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;typeorm&quot;</span>;<br><br><span class="hljs-meta">@Entity</span>()<br><span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Profile</span> </span>&#123;<br><br>    <span class="hljs-meta">@PrimaryGeneratedColumn</span>()<br>    <span class="hljs-attr">id</span>: <span class="hljs-built_in">number</span>;<br><br>    <span class="hljs-meta">@Column</span>()<br>    <span class="hljs-attr">gender</span>: <span class="hljs-built_in">string</span>;<br><br>    <span class="hljs-meta">@Column</span>()<br>    <span class="hljs-attr">photo</span>: <span class="hljs-built_in">string</span>;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>加入一个实体类的连接</li>
+<li>profile的内容连接到User类里面</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-keyword">import</span> &#123;Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn&#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;typeorm&quot;</span>;<br><span class="hljs-keyword">import</span> &#123;Profile&#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;./Profile&quot;</span>;<br><br><span class="hljs-meta">@Entity</span>()<br><span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">User</span> </span>&#123;<br><br>    <span class="hljs-meta">@PrimaryGeneratedColumn</span>()<br>    <span class="hljs-attr">id</span>: <span class="hljs-built_in">number</span>;<br><br>    <span class="hljs-meta">@Column</span>()<br>    <span class="hljs-attr">name</span>: <span class="hljs-built_in">string</span>;<br><br>    <span class="hljs-meta">@OneToOne</span>(<span class="hljs-function"><span class="hljs-params">type</span> =&gt;</span> Profile)<br>    <span class="hljs-meta">@JoinColumn</span>()<br>    <span class="hljs-attr">profile</span>: Profile;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>先实例化Profile并存入数据库</li>
+<li>将profile加入user</li>
+<li>将user加入到数据库</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-keyword">const</span> profile = <span class="hljs-keyword">new</span> Profile();<br>profile.gender = <span class="hljs-string">&quot;male&quot;</span>;<br>profile.photo = <span class="hljs-string">&quot;me.jpg&quot;</span>;<br><span class="hljs-keyword">await</span> connection.manager.save(profile);<br><br><span class="hljs-keyword">const</span> user = <span class="hljs-keyword">new</span> User();<br>user.name = <span class="hljs-string">&#x27;Joe Smith&#x27;</span>;<br>user.profile = profile;<br><span class="hljs-keyword">await</span> connection.manager.save(user);<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>查询出用户的数据和profile</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-keyword">const</span> users = <span class="hljs-keyword">await</span> connection<br>    .getRepository(User)<br>    .createQueryBuilder(<span class="hljs-string">&quot;user&quot;</span>)<br>    .leftJoinAndSelect(<span class="hljs-string">&quot;user.profile&quot;</span>, <span class="hljs-string">&quot;profile&quot;</span>)<br>    .getMany();<br></code></pre></td></tr></table></figure>
+
+<h2 id="一对一的双向实体连接"><a href="#一对一的双向实体连接" class="headerlink" title="一对一的双向实体连接"></a>一对一的双向实体连接</h2><ul>
+<li>先将一个需要绑定的实体指向对象</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-keyword">import</span> &#123;Entity, PrimaryGeneratedColumn, Column, OneToOne&#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;typeorm&quot;</span>;<br><span class="hljs-keyword">import</span> &#123;User&#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;./User&quot;</span>;<br><br><span class="hljs-meta">@Entity</span>()<br><span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Profile</span> </span>&#123;<br><br>    <span class="hljs-meta">@PrimaryGeneratedColumn</span>()<br>    <span class="hljs-attr">id</span>: <span class="hljs-built_in">number</span>;<br><br>    <span class="hljs-meta">@Column</span>()<br>    <span class="hljs-attr">gender</span>: <span class="hljs-built_in">string</span>;<br><br>    <span class="hljs-meta">@Column</span>()<br>    <span class="hljs-attr">photo</span>: <span class="hljs-built_in">string</span>;<br><br>    <span class="hljs-meta">@OneToOne</span>(<span class="hljs-function"><span class="hljs-params">type</span> =&gt;</span> User, <span class="hljs-function"><span class="hljs-params">user</span> =&gt;</span> user.profile) <span class="hljs-comment">// specify inverse side as a second parameter</span><br>    <span class="hljs-attr">user</span>: User;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>对象中需要有个column来保存profile</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-keyword">import</span> &#123;Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn&#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;typeorm&quot;</span>;<br><span class="hljs-keyword">import</span> &#123;Profile&#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;./Profile&quot;</span>;<br><br><span class="hljs-meta">@Entity</span>()<br><span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">User</span> </span>&#123;<br><br>    <span class="hljs-meta">@PrimaryGeneratedColumn</span>()<br>    <span class="hljs-attr">id</span>: <span class="hljs-built_in">number</span>;<br><br>    <span class="hljs-meta">@Column</span>()<br>    <span class="hljs-attr">name</span>: <span class="hljs-built_in">string</span>;<br><br>    <span class="hljs-meta">@OneToOne</span>(<span class="hljs-function"><span class="hljs-params">type</span> =&gt;</span> Profile, <span class="hljs-function"><span class="hljs-params">profile</span> =&gt;</span> profile.user) <span class="hljs-comment">// specify inverse side as a second parameter</span><br>    <span class="hljs-meta">@JoinColumn</span>()<br>    <span class="hljs-attr">profile</span>: Profile;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>通过profile查询绑定的用户数据</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-keyword">const</span> profiles = <span class="hljs-keyword">await</span> connection<br>.getRepository(Profile)<br>.createQueryBuilder(<span class="hljs-string">&quot;profile&quot;</span>)<br>.where(<span class="hljs-string">&quot;user.id = :id&quot;</span>, &#123; <span class="hljs-attr">id</span>: <span class="hljs-number">1</span> &#125;)<br>.leftJoinAndSelect(<span class="hljs-string">&quot;profile.user&quot;</span>, <span class="hljs-string">&quot;user&quot;</span>)<br>.getOne();<br><span class="hljs-built_in">console</span>.log(profiles);<br></code></pre></td></tr></table></figure>
+
+<h2 id="多对单-单对多的实体连接"><a href="#多对单-单对多的实体连接" class="headerlink" title="多对单/单对多的实体连接"></a>多对单/单对多的实体连接</h2><ul>
+<li>每张图片对应一个用户</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-keyword">import</span> &#123;Entity, PrimaryGeneratedColumn, Column, ManyToOne&#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;typeorm&quot;</span>;<br><span class="hljs-keyword">import</span> &#123;User&#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;./User&quot;</span>;<br><br><span class="hljs-meta">@Entity</span>()<br><span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Photo</span> </span>&#123;<br><br>    <span class="hljs-meta">@PrimaryGeneratedColumn</span>()<br>    <span class="hljs-attr">id</span>: <span class="hljs-built_in">number</span>;<br><br>    <span class="hljs-meta">@Column</span>()<br>    <span class="hljs-attr">url</span>: <span class="hljs-built_in">string</span>;<br><br>    <span class="hljs-meta">@ManyToOne</span>(<span class="hljs-function"><span class="hljs-params">type</span> =&gt;</span> User, <span class="hljs-function"><span class="hljs-params">user</span> =&gt;</span> user.photos)<br>    <span class="hljs-attr">user</span>: User;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>每个用户可以对应多张照片</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-keyword">import</span> &#123;Entity, PrimaryGeneratedColumn, Column, OneToMany&#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;typeorm&quot;</span>;<br><span class="hljs-keyword">import</span> &#123;Photo&#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;./Photo&quot;</span>;<br><br><span class="hljs-meta">@Entity</span>()<br><span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">User</span> </span>&#123;<br><br>    <span class="hljs-meta">@PrimaryGeneratedColumn</span>()<br>    <span class="hljs-attr">id</span>: <span class="hljs-built_in">number</span>;<br><br>    <span class="hljs-meta">@Column</span>()<br>    <span class="hljs-attr">name</span>: <span class="hljs-built_in">string</span>;<br><br>    <span class="hljs-meta">@OneToMany</span>(<span class="hljs-function"><span class="hljs-params">type</span> =&gt;</span> Photo, <span class="hljs-function"><span class="hljs-params">photo</span> =&gt;</span> photo.user)<br>    <span class="hljs-attr">photos</span>: Photo[];<br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="PS一些ts的配置"><a href="#PS一些ts的配置" class="headerlink" title="PS一些ts的配置"></a>PS一些ts的配置</h2><ul>
+<li>使用typeorm的设置</li>
+</ul>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs json">&#123;<br>    ...<br>    <span class="hljs-attr">&quot;strictPropertyInitialization&quot;</span>: <span class="hljs-literal">false</span>,<br>    <span class="hljs-attr">&quot;experimentalDecorators&quot;</span>: <span class="hljs-literal">true</span>,<br>    <span class="hljs-attr">&quot;emitDecoratorMetadata&quot;</span>: <span class="hljs-literal">true</span>,<br>    ...<br>&#125;<br></code></pre></td></tr></table></figure>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%B8%B8%E6%88%8F%E7%BC%96%E7%A8%8B/">游戏编程</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/JavaScript/">JavaScript</a>
+                    
+                      <a class="hover-with-bg" href="/tags/typescript/">typescript</a>
+                    
+                      <a class="hover-with-bg" href="/tags/typeorm/">typeorm</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/576eb6bf/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">好用的TypeScript</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/c4c9da0e/">
+                        <span class="hidden-mobile">CocosCreator自制控件补全计划</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+  <!-- 备案信息 -->
+  <div class="beian">
+    <span>
+      <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+        浙ICP备20021627
+      </a>
+    </span>
+    
+  </div>
+
+
+  
+    <!-- cnzz Analytics Icon -->
+    <span id="cnzz_stat_icon_1260480291" style="display: none"></span>
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <!-- cnzz Analytics -->
+    <script defer src="//s4.cnzz.com/z_stat.php?id=1260480291&show=pic"
+            type="text/javascript"></script>
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

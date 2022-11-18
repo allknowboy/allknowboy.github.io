@@ -1,0 +1,565 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.ico">
+  <link rel="icon" href="/img/favicon.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="个人博客">
+  <meta name="author" content="包打听">
+  <meta name="keywords" content="">
+  <meta name="description" content="CocosCreator与微信小游戏基础系统判断环境的宏定义1cc.sys.platform &#x3D;&#x3D; cc.sys.WECHAT_GAME  获取当前设置,用于获取是否授权等12345678910111213141516171819&#x2F;** * 获取当前的设置 * * @memberof WxManager *&#x2F;getSetting(cb) &amp;#123;    if (cc.sys.platform">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CocosCreator与微信小游戏">
+<meta property="og:url" content="https://allknowboy.com/posts/d4f6582c/index.html">
+<meta property="og:site_name" content="Dream使用说明书">
+<meta property="og:description" content="CocosCreator与微信小游戏基础系统判断环境的宏定义1cc.sys.platform &#x3D;&#x3D; cc.sys.WECHAT_GAME  获取当前设置,用于获取是否授权等12345678910111213141516171819&#x2F;** * 获取当前的设置 * * @memberof WxManager *&#x2F;getSetting(cb) &amp;#123;    if (cc.sys.platform">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-07-21T13:59:56.000Z">
+<meta property="article:modified_time" content="2022-11-18T04:36:27.221Z">
+<meta property="article:author" content="包打听">
+<meta property="article:tag" content="微信小游戏">
+<meta property="article:tag" content="cocos creator">
+<meta name="twitter:card" content="summary_large_image">
+  
+  <title>CocosCreator与微信小游戏 - Dream使用说明书</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"allknowboy.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":1260480291,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Dream使用说明书</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="CocosCreator与微信小游戏">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2019-07-21 13:59" pubdate>
+        2019年7月21日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      6.2k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      19 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">CocosCreator与微信小游戏</h1>
+            
+            <div class="markdown-body">
+              <h1 id="CocosCreator与微信小游戏"><a href="#CocosCreator与微信小游戏" class="headerlink" title="CocosCreator与微信小游戏"></a>CocosCreator与微信小游戏</h1><h2 id="基础系统"><a href="#基础系统" class="headerlink" title="基础系统"></a>基础系统</h2><h3 id="判断环境的宏定义"><a href="#判断环境的宏定义" class="headerlink" title="判断环境的宏定义"></a>判断环境的宏定义</h3><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ts">cc.sys.platform == cc.sys.WECHAT_GAME<br></code></pre></td></tr></table></figure>
+
+<h3 id="获取当前设置-用于获取是否授权等"><a href="#获取当前设置-用于获取是否授权等" class="headerlink" title="获取当前设置,用于获取是否授权等"></a>获取当前设置,用于获取是否授权等</h3><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 获取当前的设置</span><br><span class="hljs-comment"> *</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@memberof <span class="hljs-variable">WxManager</span></span></span><br><span class="hljs-comment"> */</span><br><span class="hljs-function"><span class="hljs-title">getSetting</span>(<span class="hljs-params">cb</span>)</span> &#123;<br>    <span class="hljs-keyword">if</span> (cc.sys.platform != cc.sys.WECHAT_GAME) &#123;<br>        <span class="hljs-keyword">return</span><br>    &#125;<br>    wx.getSetting(&#123;<br>        <span class="hljs-function"><span class="hljs-title">success</span>(<span class="hljs-params">res</span>)</span> &#123;<br>            cb(<span class="hljs-literal">null</span>, res)<br>        &#125;,<br>        <span class="hljs-function"><span class="hljs-title">fail</span>(<span class="hljs-params">res</span>)</span> &#123;<br>            cb(<span class="hljs-string">&#x27;getSetting fail&#x27;</span>, res)<br>        &#125;<br><br>    &#125;)<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="获取用户授权"><a href="#获取用户授权" class="headerlink" title="获取用户授权"></a>获取用户授权</h3><ul>
+<li>传入一个透明按钮对象(设置全屏即可)</li>
+<li>用户第一次点击屏幕的时候先走授权，之后会自动调用</li>
+<li>如果授权成功就回调成功，需要移除透明按钮</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-comment">/**</span><br><span class="hljs-comment">    * 获取当前用户信息</span><br><span class="hljs-comment">    *</span><br><span class="hljs-comment">    * <span class="hljs-doctag">@memberof <span class="hljs-variable">WxManager</span></span></span><br><span class="hljs-comment">    */</span><br><span class="hljs-function"><span class="hljs-title">getUserInfo</span>(<span class="hljs-params">btnNode, cb</span>)</span> &#123;<br>    <span class="hljs-keyword">if</span> (cc.sys.platform != cc.sys.WECHAT_GAME) &#123;<br>        <span class="hljs-keyword">return</span><br>    &#125;<br>    wx.getSetting(&#123;<br>        <span class="hljs-function"><span class="hljs-title">success</span>(<span class="hljs-params">res</span>)</span> &#123;<br>            <span class="hljs-keyword">if</span>(!res.authSetting[<span class="hljs-string">&#x27;scope.userInfo&#x27;</span>]) &#123;<br><br>                <span class="hljs-keyword">let</span> btnSize = cc.size(btnNode.width+<span class="hljs-number">10</span>,btnNode.height+<span class="hljs-number">10</span>);<br>                <span class="hljs-keyword">let</span> frameSize = cc.view.getFrameSize();<br>                <span class="hljs-keyword">let</span> winSize = cc.director.getWinSize();<br>                <span class="hljs-comment">// console.log(&quot;winSize: &quot;,winSize);</span><br>                <span class="hljs-comment">// console.log(&quot;frameSize: &quot;,frameSize);</span><br>                <span class="hljs-comment">//适配不同机型来创建微信授权按钮</span><br>                <span class="hljs-keyword">let</span> left = (winSize.width*<span class="hljs-number">0.5</span>+btnNode.x-btnSize.width*<span class="hljs-number">0.5</span>)/winSize.width*frameSize.width;<br>                <span class="hljs-keyword">let</span> top = (winSize.height*<span class="hljs-number">0.5</span>-btnNode.y-btnSize.height*<span class="hljs-number">0.5</span>)/winSize.height*frameSize.height;<br>                <span class="hljs-keyword">let</span> width = btnSize.width/winSize.width*frameSize.width;<br>                <span class="hljs-keyword">let</span> height = btnSize.height/winSize.height*frameSize.height;<br><br>                <span class="hljs-keyword">const</span> button = wx.createUserInfoButton(&#123;<br>                    <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;text&#x27;</span>,<br>                    <span class="hljs-attr">text</span>: <span class="hljs-string">&#x27;&#x27;</span>,<br>                    <span class="hljs-attr">style</span>: &#123;<br>                        <span class="hljs-attr">left</span>: left,<br>                        <span class="hljs-attr">top</span>: top,<br>                        <span class="hljs-attr">width</span>: width,<br>                        <span class="hljs-attr">height</span>: height,<br>                        <span class="hljs-attr">lineHeight</span>: <span class="hljs-number">0</span>,<br>                        <span class="hljs-attr">backgroundColor</span>: <span class="hljs-string">&#x27;&#x27;</span>,<br>                        <span class="hljs-attr">color</span>: <span class="hljs-string">&#x27;#ffffff&#x27;</span>,<br>                        <span class="hljs-attr">textAlign</span>: <span class="hljs-string">&#x27;center&#x27;</span>,<br>                        <span class="hljs-attr">fontSize</span>: <span class="hljs-number">16</span>,<br>                        <span class="hljs-attr">borderRadius</span>: <span class="hljs-number">4</span><br>                    &#125;<br>                &#125;)<br>                button.onTap(<span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> &#123;<br>                    <span class="hljs-comment">// 此处可以获取到用户信息</span><br>                    <span class="hljs-keyword">if</span> (cb) &#123;<br>                        <span class="hljs-keyword">if</span>(res.userInfo) &#123;<br>                            cb(<span class="hljs-literal">null</span>, res)<br>                            button.hide()<br>                        &#125; <span class="hljs-keyword">else</span> &#123;<br>                            cb(<span class="hljs-string">&#x27;没有允许获取用户权限&#x27;</span>)<br>                        &#125;<br>                    &#125;<br>                &#125;)<br>            &#125; <span class="hljs-keyword">else</span> &#123;<br>                wx.getUserInfo(&#123;<br>                    <span class="hljs-function"><span class="hljs-title">success</span>(<span class="hljs-params">res</span>)</span> &#123;<br>                        <span class="hljs-keyword">if</span> (cb) &#123;<br>                            cb(<span class="hljs-literal">null</span>, res)<br>                        &#125;<br>                    &#125;<br>                &#125;)<br>            &#125;<br>        &#125;<br>    &#125;)<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>使用方法</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs ts">xx.getUserInfo(<span class="hljs-built_in">this</span>.userButton,<span class="hljs-function">(<span class="hljs-params">err, res</span>) =&gt;</span> &#123;<br>    <span class="hljs-keyword">if</span> (err) <span class="hljs-keyword">return</span><br>    GameDataManager.getInstance().wxUserInfo = res.userInfo<br>    <span class="hljs-built_in">this</span>.userButton.active = <span class="hljs-literal">false</span><br>    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;授权成功&#x27;</span>)<br>&#125;)<br></code></pre></td></tr></table></figure>
+
+
+<h2 id="分享"><a href="#分享" class="headerlink" title="分享"></a>分享</h2><h3 id="设置被动分享（点击三点图标显示的分享）"><a href="#设置被动分享（点击三点图标显示的分享）" class="headerlink" title="设置被动分享（点击三点图标显示的分享）"></a>设置被动分享（点击三点图标显示的分享）</h3><ul>
+<li>分享是否带ticket</li>
+<li>被动分享的传参是个函数</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs ts">wx.showShareMenu(&#123;<br>    <span class="hljs-attr">withShareTicket</span>: <span class="hljs-literal">false</span><br>&#125;)<br>wx.onShareAppMessage(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>&#123;<br>    <span class="hljs-comment">// 用户点击了“转发”按钮</span><br>    <span class="hljs-keyword">return</span> &#123;<br>        <span class="hljs-attr">title</span>: <span class="hljs-string">&#x27;分享的title&#x27;</span>,<br>        <span class="hljs-attr">imageUrlId</span>: <span class="hljs-string">&#x27;imageUrlId&#x27;</span>,<br>        <span class="hljs-attr">imageUrl</span>: <span class="hljs-string">&#x27;imageUrl&#x27;</span>,<br>    &#125;<br>&#125;)<br></code></pre></td></tr></table></figure>
+
+<h3 id="设置主动分享"><a href="#设置主动分享" class="headerlink" title="设置主动分享"></a>设置主动分享</h3><ul>
+<li>主动分享的传参是个对象</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs ts">wx.shareAppMessage(<br>    &#123;<br>        <span class="hljs-attr">title</span>: <span class="hljs-string">&#x27;title&#x27;</span>,<br>        <span class="hljs-attr">imageUrlId</span>: <span class="hljs-string">&#x27;imageUrlId&#x27;</span>,<br>        <span class="hljs-attr">imageUrl</span>: <span class="hljs-string">&#x27;imageUrl&#x27;</span><br>    &#125;<br>)<br></code></pre></td></tr></table></figure>
+
+<h3 id="使用截图分享"><a href="#使用截图分享" class="headerlink" title="使用截图分享"></a>使用截图分享</h3><ul>
+<li><strong>getSystemInfoSync</strong>用来获取当前真是的像素数据</li>
+<li>当前是预定义开始的截取高度，安装宽比高 5：4的比例截取</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-keyword">const</span> info = wx.getSystemInfoSync()<br><span class="hljs-keyword">let</span> screenWidth = info.pixelRatio * info.windowWidth<br><span class="hljs-keyword">let</span> screenHeight = info.pixelRatio * info.windowHeight<br>wx.shareAppMessage(<br>&#123;<br>    <span class="hljs-attr">title</span>: <span class="hljs-string">&#x27;title&#x27;</span>,<br>    <span class="hljs-attr">imageUrl</span>: <span class="hljs-built_in">window</span>[<span class="hljs-string">&#x27;canvas&#x27;</span>].toTempFilePathSync(&#123;<br>        <span class="hljs-attr">x</span>: <span class="hljs-number">0</span>,<br>        <span class="hljs-attr">y</span>: screenHeight * <span class="hljs-number">.6</span>,<br>        <span class="hljs-attr">width</span>: screenWidth,<br>        <span class="hljs-attr">height</span>: screenWidth * <span class="hljs-number">.8</span>,<br>        <span class="hljs-attr">destWidth</span>: <span class="hljs-number">500</span>,<br>        <span class="hljs-attr">destHeight</span>: <span class="hljs-number">400</span><br>    &#125;)<br>&#125;<br>)<br></code></pre></td></tr></table></figure>
+
+<h3 id="使用固定图片加Canvas画图的分享"><a href="#使用固定图片加Canvas画图的分享" class="headerlink" title="使用固定图片加Canvas画图的分享"></a>使用固定图片加Canvas画图的分享</h3><ul>
+<li>使用图片的规格为 375 X 300</li>
+<li>放置在ccc的模板目录内</li>
+<li>画图使用的值为rpx</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-keyword">let</span> canvas1 = wx.createCanvas()<br><span class="hljs-keyword">let</span> ctx = canvas1.getContext(<span class="hljs-string">&#x27;2d&#x27;</span>) <span class="hljs-comment">// 创建一个 2d context</span><br><span class="hljs-keyword">let</span> image = wx.createImage()<br>image.onload = <span class="hljs-function">() =&gt;</span> &#123;<br>    ctx.drawImage(image, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>)<br>    ctx.fillStyle = <span class="hljs-string">&#x27;#333333&#x27;</span><br>    ctx.font = <span class="hljs-string">&quot;18px bold 微软雅黑&quot;</span>;<br>    ctx.textAlign = <span class="hljs-string">&quot;center&quot;</span>;<br>    ctx.textBaseline = <span class="hljs-string">&quot;middle&quot;</span>;<br>    ctx.fillText(<span class="hljs-string">&#x27;哈哈&#x27;</span>, <span class="hljs-number">190</span>, <span class="hljs-number">37</span>)<br>    wx.shareAppMessage(<br>        &#123;<br>            <span class="hljs-attr">title</span>: str,<br>            <span class="hljs-attr">imageUrl</span>: canvas1.toTempFilePathSync(&#123;<br>                <span class="hljs-attr">x</span>: <span class="hljs-number">0</span>,<br>                <span class="hljs-attr">y</span>: <span class="hljs-number">0</span>,<br>                <span class="hljs-attr">width</span>: <span class="hljs-number">375</span>,<br>                <span class="hljs-attr">height</span>: <span class="hljs-number">300</span>,<br>                <span class="hljs-attr">destWidth</span>: <span class="hljs-number">500</span>,<br>                <span class="hljs-attr">destHeight</span>: <span class="hljs-number">400</span><br>            &#125;)<br>        &#125;<br>    )<br>&#125;<br>image.src = <span class="hljs-string">&#x27;img/share1.png&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="排行榜"><a href="#排行榜" class="headerlink" title="排行榜"></a>排行榜</h2><h3 id="发送数据到子域-主域"><a href="#发送数据到子域-主域" class="headerlink" title="发送数据到子域(主域)"></a>发送数据到子域(主域)</h3><ul>
+<li>发送对象到子域</li>
+<li>用于传递相关数据</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-keyword">let</span> openDataContext = wx.getOpenDataContext()<br>openDataContext.postMessage(&#123;<span class="hljs-attr">hello</span>: <span class="hljs-string">&#x27;hello&#x27;</span>&#125;)<br></code></pre></td></tr></table></figure>
+
+<h3 id="子域接收主域发送数据"><a href="#子域接收主域发送数据" class="headerlink" title="子域接收主域发送数据"></a>子域接收主域发送数据</h3><ul>
+<li>obj是获取的对象</li>
+<li>可以定义固定的格式内容，用于判断传递的数据类型和内容</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-built_in">window</span>[<span class="hljs-string">&quot;wx&quot;</span>].onMessage(<span class="hljs-function">(<span class="hljs-params">obj: <span class="hljs-built_in">any</span></span>) =&gt;</span> &#123;<br><br>&#125;)<br></code></pre></td></tr></table></figure>
+
+<h3 id="子域中获取用户信息-子域"><a href="#子域中获取用户信息-子域" class="headerlink" title="子域中获取用户信息(子域)"></a>子域中获取用户信息(子域)</h3><ul>
+<li>子域中获取信息，传入openId</li>
+<li>传入selfOpenId为获取自己的信息</li>
+<li>data数组对应openIdList</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-built_in">window</span>[<span class="hljs-string">&quot;wx&quot;</span>].getUserInfo(&#123;<br>    <span class="hljs-attr">openIdList</span>: [<span class="hljs-string">&#x27;selfOpenId&#x27;</span>],<br>    <span class="hljs-attr">success</span>: <span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> &#123;<br>        <span class="hljs-comment">// console.log(&#x27;res&lt;&lt;&lt;&lt;&lt;&lt;==&gt;&gt;&gt;&gt;&gt;&gt;&gt;&#x27;, res)</span><br>        <span class="hljs-built_in">this</span>.selfNickName = res.data[<span class="hljs-number">0</span>].nickName<br>        <span class="hljs-built_in">this</span>.selfAvatarUrl = res.data[<span class="hljs-number">0</span>].avatarUrl<br>    &#125;<br>&#125;)<br></code></pre></td></tr></table></figure>
+
+<h3 id="获取当前用户的数据"><a href="#获取当前用户的数据" class="headerlink" title="获取当前用户的数据"></a>获取当前用户的数据</h3><ul>
+<li>保存的数据都为字符串模式, 使用数据的时候需要转换</li>
+<li>第一次获取数据的时候可能为空</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-comment">// 获取当前用户的数据</span><br><span class="hljs-built_in">window</span>[<span class="hljs-string">&quot;wx&quot;</span>].getUserCloudStorage(&#123;<br>    <span class="hljs-attr">keyList</span>: [<span class="hljs-string">&quot;score&quot;</span>, <span class="hljs-string">&quot;timestamp&quot;</span>],<br>    <span class="hljs-attr">success</span>: <span class="hljs-function"><span class="hljs-params">res</span> =&gt;</span> &#123;<br>        <span class="hljs-comment">// console.log(&#x27;res=--==--=&gt;&#x27;, res)</span><br>        <span class="hljs-keyword">let</span> arr: <span class="hljs-built_in">Array</span>&lt;&#123; <span class="hljs-attr">key</span>: <span class="hljs-built_in">string</span>,<span class="hljs-attr">value</span>: <span class="hljs-built_in">string</span> &#125;&gt; = res.KVDataList<br>        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span>(arr[<span class="hljs-number">0</span>]) !== <span class="hljs-string">&#x27;undefined&#x27;</span>) &#123;<br><br>        &#125;<br>        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span>(arr[<span class="hljs-number">1</span>]) !== <span class="hljs-string">&#x27;undefined&#x27;</span>) &#123;<br><br>        &#125;<br>    &#125;<br>&#125;)<br></code></pre></td></tr></table></figure>
+
+<h3 id="请求所有好友的的数据"><a href="#请求所有好友的的数据" class="headerlink" title="请求所有好友的的数据"></a>请求所有好友的的数据</h3><ul>
+<li>获取当前所有好友的信息</li>
+<li>UserGameData为获取的数据结构</li>
+<li>获取数据有可能为空(没有好友玩，包括自己都没上传成绩)</li>
+<li>使用函数方法进行数据过滤和排序</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-keyword">interface</span> UserGameData &#123;<br><span class="hljs-attr">avatarUrl</span>: <span class="hljs-built_in">string</span><br><span class="hljs-attr">nickname</span>: <span class="hljs-built_in">string</span><br><span class="hljs-attr">openid</span>: <span class="hljs-built_in">string</span><br><span class="hljs-attr">KVDataList</span>: <span class="hljs-built_in">Array</span>&lt;&#123;<br>    <span class="hljs-attr">key</span>: <span class="hljs-built_in">string</span>,<br>    <span class="hljs-attr">value</span>: <span class="hljs-built_in">string</span><br>&#125;&gt;<br>&#125;<br><br><span class="hljs-comment">// 请求当前所有的用户数据</span><br><span class="hljs-built_in">window</span>[<span class="hljs-string">&quot;wx&quot;</span>].getFriendCloudStorage(&#123;<br>    <span class="hljs-attr">keyList</span>: [<span class="hljs-string">&quot;score&quot;</span>, <span class="hljs-string">&quot;timestamp&quot;</span>],<br>    <span class="hljs-attr">success</span>: <span class="hljs-function"><span class="hljs-params">res</span> =&gt;</span> &#123;<br>        <span class="hljs-keyword">let</span> ranking = <span class="hljs-number">0</span><br>        <span class="hljs-keyword">let</span> hasSelf: <span class="hljs-built_in">boolean</span> = <span class="hljs-literal">false</span><br>        <span class="hljs-keyword">let</span> data: <span class="hljs-built_in">Array</span>&lt;UserGameData&gt; = res.data<br>        data.map(<span class="hljs-built_in">Function</span>).sort(<span class="hljs-built_in">Function</span>).forEach(<span class="hljs-built_in">Function</span>)<br>    &#125;<br>&#125;)<br></code></pre></td></tr></table></figure>
+
+<h2 id="用户登录"><a href="#用户登录" class="headerlink" title="用户登录"></a>用户登录</h2><h3 id="代理"><a href="#代理" class="headerlink" title="代理"></a>代理</h3><ul>
+<li>将小程序的appid和key存储在服务器</li>
+<li>安装superagent用于代理访问</li>
+</ul>
+<blockquote>
+<p>api.ts</p>
+</blockquote>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-keyword">import</span> superagent <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;superagent&#x27;</span><br><br><span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Api</span> </span>&#123;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 通过登录的code 获取用户的session</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@export</span></span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param <span class="hljs-type">&#123;string&#125;</span> <span class="hljs-variable">appid</span></span></span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param <span class="hljs-type">&#123;string&#125;</span> <span class="hljs-variable">secret</span></span></span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param <span class="hljs-type">&#123;string&#125;</span> <span class="hljs-variable">js_code</span></span></span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param <span class="hljs-type">&#123;string&#125;</span> </span>[grant_type=&#x27;authorization_code&#x27;]</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@returns</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">static</span> <span class="hljs-function"><span class="hljs-title">code2Session</span>(<span class="hljs-params">appid: <span class="hljs-built_in">string</span>, secret: <span class="hljs-built_in">string</span>, js_code: <span class="hljs-built_in">string</span>, grant_type = <span class="hljs-string">&#x27;authorization_code&#x27;</span></span>)</span> &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>&lt;<span class="hljs-built_in">string</span>&gt;(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> &#123;<br>            <span class="hljs-keyword">let</span> url = <span class="hljs-string">`https://api.weixin.qq.com/sns/jscode2session?appid=<span class="hljs-subst">$&#123;appid&#125;</span>&amp;secret=<span class="hljs-subst">$&#123;secret&#125;</span>&amp;js_code=<span class="hljs-subst">$&#123;js_code&#125;</span>&amp;grant_type=<span class="hljs-subst">$&#123;grant_type&#125;</span>`</span><br>            superagent.get(url).end(<span class="hljs-function">(<span class="hljs-params">err, res</span>) =&gt;</span> &#123;<br>               <span class="hljs-comment">// console.log(err)</span><br>               <span class="hljs-comment">// console.log(res)</span><br>                <span class="hljs-keyword">if</span> (err) &#123;<br>                    resolve(<span class="hljs-string">&#x27;&#123;&#125;&#x27;</span>)<br>                &#125; <span class="hljs-keyword">else</span> &#123;<br>                    <span class="hljs-comment">// console.log(&#x27;res: &#x27;, res)</span><br>                    <span class="hljs-comment">// console.log(&#x27;res.text: &#x27;, res.text)</span><br>                    resolve(res.text)<br>                &#125;<br>            &#125;)<br>        &#125;)<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="获取code"><a href="#获取code" class="headerlink" title="获取code"></a>获取code</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs js">wx.login(&#123;<br>  success (res) &#123;<br>    <span class="hljs-keyword">if</span> (res.code) &#123;<br>      <span class="hljs-comment">// 此处将获得的code发送给自己的服务器获取openId,实现登录</span><br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>      <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;登录失败！&#x27;</span> + res.errMsg)<br>    &#125;<br>  &#125;<br>&#125;)<br></code></pre></td></tr></table></figure>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%B8%B8%E6%88%8F%E7%BC%96%E7%A8%8B/">游戏编程</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E6%B8%B8%E6%88%8F/">微信小游戏</a>
+                    
+                      <a class="hover-with-bg" href="/tags/cocos-creator/">cocos creator</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/ed17295a/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">微信小游戏的长连接解决方案</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/f7dc405d/">
+                        <span class="hidden-mobile">CocosCreator中使用pureMvc</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+  <!-- 备案信息 -->
+  <div class="beian">
+    <span>
+      <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+        浙ICP备20021627
+      </a>
+    </span>
+    
+  </div>
+
+
+  
+    <!-- cnzz Analytics Icon -->
+    <span id="cnzz_stat_icon_1260480291" style="display: none"></span>
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <!-- cnzz Analytics -->
+    <script defer src="//s4.cnzz.com/z_stat.php?id=1260480291&show=pic"
+            type="text/javascript"></script>
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

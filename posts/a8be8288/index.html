@@ -1,0 +1,538 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.ico">
+  <link rel="icon" href="/img/favicon.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="个人博客">
+  <meta name="author" content="包打听">
+  <meta name="keywords" content="">
+  <meta name="description" content="前言&amp;emsp;&amp;emsp;安利一个游戏服务器框架colyseus,使用起来十分简单，只需要一丢丢的代码就可以实现一个状态同步的服务器，10分钟主题，废话不多说,Let’s Rock! 安装&amp;项目设置 使用npm初始化项目  12345npm i -g typescriptnpm init -ytsc --initnpm i colyseusnpm i express @types&#x2F;ex">
+<meta property="og:type" content="article">
+<meta property="og:title" content="10分钟开发一个游戏服务器">
+<meta property="og:url" content="https://allknowboy.com/posts/a8be8288/index.html">
+<meta property="og:site_name" content="Dream使用说明书">
+<meta property="og:description" content="前言&amp;emsp;&amp;emsp;安利一个游戏服务器框架colyseus,使用起来十分简单，只需要一丢丢的代码就可以实现一个状态同步的服务器，10分钟主题，废话不多说,Let’s Rock! 安装&amp;项目设置 使用npm初始化项目  12345npm i -g typescriptnpm init -ytsc --initnpm i colyseusnpm i express @types&#x2F;ex">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://allknowboy.com/images/colyseus/logo.png">
+<meta property="og:image" content="https://allknowboy.com/images/colyseus/simple.png">
+<meta property="og:image" content="https://allknowboy.com/images/colyseus/cut1.png">
+<meta property="article:published_time" content="2019-03-01T16:52:45.000Z">
+<meta property="article:modified_time" content="2022-11-18T04:36:27.221Z">
+<meta property="article:author" content="包打听">
+<meta property="article:tag" content="nodejs">
+<meta property="article:tag" content="server">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://allknowboy.com/images/colyseus/logo.png">
+  
+  <title>10分钟开发一个游戏服务器 - Dream使用说明书</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"allknowboy.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":1260480291,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Dream使用说明书</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="10分钟开发一个游戏服务器">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2019-03-01 16:52" pubdate>
+        2019年3月1日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      3.4k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      11 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">10分钟开发一个游戏服务器</h1>
+            
+            <div class="markdown-body">
+              <p><img src="/images/colyseus/logo.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>&emsp;&emsp;安利一个游戏服务器框架<strong>colyseus</strong>,使用起来十分简单，只需要一丢丢的代码就可以实现一个状态同步的服务器，10分钟主题，废话不多说,Let’s Rock!</p>
+<h2 id="安装-amp-项目设置"><a href="#安装-amp-项目设置" class="headerlink" title="安装&amp;项目设置"></a>安装&amp;项目设置</h2><ul>
+<li>使用npm初始化项目</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash">npm i -g typescript<br>npm init -y<br>tsc --init<br>npm i colyseus<br>npm i express @types/express @types/node @types/redis<br></code></pre></td></tr></table></figure>
+
+<h2 id="编程ING"><a href="#编程ING" class="headerlink" title="编程ING"></a>编程ING</h2><p><strong>先码一遍代码比看着纸想有用. —–鲁迅</strong></p>
+<ul>
+<li>入口文件 在主目录下新建一个index.ts文件</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-keyword">import</span> &#123; GameRoom &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./room/GameRoom&#x27;</span>;<br><span class="hljs-keyword">import</span> &#123; Server &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;colyseus&#x27;</span>;<br><span class="hljs-keyword">import</span> express <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;express&#x27;</span>;<br><span class="hljs-keyword">import</span> http <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;http&#x27;</span>;<br><br><span class="hljs-keyword">const</span> app = express();<br><br><span class="hljs-comment">// 初始化游戏服务器</span><br><span class="hljs-keyword">const</span> gameServer = <span class="hljs-keyword">new</span> Server(&#123;<br>    <span class="hljs-attr">server</span>: http.createServer(app)<br>&#125;);<br><br><span class="hljs-comment">// 注册房间服务器</span><br>gameServer.register(<span class="hljs-string">&#x27;game&#x27;</span>, GameRoom);<br><br><span class="hljs-comment">// 开始监听端口</span><br>gameServer.listen(<span class="hljs-number">3000</span>);<br><span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;server is on&#x27;</span>);<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>新建一个文件夹room 新建一个GameRoom.ts文件</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-keyword">import</span> &#123; Room, Client &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;colyseus&#x27;</span>;<br><span class="hljs-keyword">import</span> &#123; PlayerState &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../entity/PlayerState&#x27;</span>;<br><br><span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">GameRoom</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Room</span>&lt;<span class="hljs-title">PlayerState</span>&gt; </span>&#123;<br>    <span class="hljs-comment">// 房间内的最大人数</span><br>    <span class="hljs-attr">maxClients</span>: <span class="hljs-built_in">number</span> = <span class="hljs-number">2</span>;<br><br>    <span class="hljs-comment">// 房间初始化方法</span><br>    <span class="hljs-function"><span class="hljs-title">onInit</span>(<span class="hljs-params">options: <span class="hljs-built_in">any</span></span>)</span> &#123;<br>        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;ChatRoom onInit&#x27;</span>);<br>        <span class="hljs-comment">// 设置需要更新的状态</span><br>        <span class="hljs-built_in">this</span>.setState(<span class="hljs-keyword">new</span> PlayerState());<br>        <span class="hljs-comment">// 设置发送频率</span><br>        <span class="hljs-built_in">this</span>.setPatchRate(<span class="hljs-number">50</span>);<br>    &#125;<br><br>    <span class="hljs-comment">// 消息收取方法</span><br>    <span class="hljs-function"><span class="hljs-title">onJoin</span>(<span class="hljs-params">client: Client</span>)</span> &#123;<br>        <span class="hljs-built_in">this</span>.state.addPlayer(client);<br>    &#125;<br><br>    <span class="hljs-comment">// 消息收取方法</span><br>    <span class="hljs-function"><span class="hljs-title">onLeave</span>(<span class="hljs-params">client: Client</span>)</span> &#123;<br>        <span class="hljs-built_in">this</span>.state.removePlayer(client);<br>    &#125;<br><br>    <span class="hljs-comment">// 消息收取方法</span><br>    onMessage(client: Client, <span class="hljs-attr">data</span>: <span class="hljs-built_in">any</span>): <span class="hljs-built_in">void</span> &#123;<br>        <span class="hljs-built_in">this</span>.state.movePlayer(client, data.x, data.y);<br>    &#125;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><p>新建一个文件夹entity 新建文件PlayerState.ts和Player.ts</p>
+</li>
+<li><p>PlayerState.ts</p>
+</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-keyword">import</span> &#123; EntityMap, Client &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;colyseus&#x27;</span>;<br><span class="hljs-keyword">import</span> &#123; Player &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./Player&#x27;</span>;<br><br><span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PlayerState</span> </span>&#123;<br>    <span class="hljs-comment">// EntityMap是colyseus的对象实体模板</span><br>    <span class="hljs-attr">players</span>: EntityMap&lt;Player&gt; = &#123;&#125;;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 添加新用户的方法</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param <span class="hljs-type">&#123;Client&#125;</span> <span class="hljs-variable">client</span></span></span><br><span class="hljs-comment">     * <span class="hljs-doctag">@memberof <span class="hljs-variable">PlayerState</span></span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-title">addPlayer</span>(<span class="hljs-params">client: Client</span>)</span> &#123;<br>        <span class="hljs-keyword">let</span> player = <span class="hljs-keyword">new</span> Player(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>);<br>        <span class="hljs-built_in">this</span>.players[client.sessionId] = player;<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 删除一个用户的方法</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param <span class="hljs-type">&#123;Client&#125;</span> <span class="hljs-variable">client</span></span></span><br><span class="hljs-comment">     * <span class="hljs-doctag">@memberof <span class="hljs-variable">PlayerState</span></span></span><br><span class="hljs-comment">     */</span><br>    removePlayer (client: Client) &#123;<br>        <span class="hljs-keyword">delete</span> <span class="hljs-built_in">this</span>.players[ client.sessionId ];<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 移动用户的方法</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param <span class="hljs-type">&#123;Client&#125;</span> <span class="hljs-variable">client</span></span></span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param <span class="hljs-type">&#123;number&#125;</span> </span>[x=0]</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param <span class="hljs-type">&#123;number&#125;</span> </span>[y=0]</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@memberof <span class="hljs-variable">PlayerState</span></span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-title">movePlayer</span>(<span class="hljs-params">client: Client, x: <span class="hljs-built_in">number</span> = <span class="hljs-number">0</span>, y: <span class="hljs-built_in">number</span> = <span class="hljs-number">0</span></span>)</span> &#123;<br>        <span class="hljs-built_in">this</span>.players[client.sessionId].x += x;<br>        <span class="hljs-built_in">this</span>.players[client.sessionId].y += y;<br>        <span class="hljs-keyword">if</span>(x &gt; <span class="hljs-number">0</span>)&#123;<br>            <span class="hljs-built_in">this</span>.players[client.sessionId].dir = <span class="hljs-literal">true</span>;<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            <span class="hljs-built_in">this</span>.players[client.sessionId].dir = <span class="hljs-literal">false</span>;<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>Player.ts</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-keyword">import</span> &#123; randomChineseName &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../Utils&#x27;</span><br><span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Player</span> </span>&#123;<br>    <span class="hljs-keyword">public</span> name: <span class="hljs-built_in">string</span>;  <span class="hljs-comment">// 名称</span><br>    <span class="hljs-keyword">public</span> x: <span class="hljs-built_in">number</span>;    <span class="hljs-comment">// x轴的位置</span><br>    <span class="hljs-keyword">public</span> y: <span class="hljs-built_in">number</span>;   <span class="hljs-comment">// y轴的位置</span><br>    <span class="hljs-keyword">public</span> dir: <span class="hljs-built_in">boolean</span>; <span class="hljs-comment">// 玩家的方向(左 false 右 true) 简单定义</span><br>    <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params"> x: <span class="hljs-built_in">number</span>,  y: <span class="hljs-built_in">number</span>,name?: <span class="hljs-built_in">string</span></span>)</span> &#123;<br>        <span class="hljs-built_in">this</span>.x = x;<br>        <span class="hljs-built_in">this</span>.y = y;<br>        <span class="hljs-built_in">this</span>.name = name || randomChineseName();<br>        <span class="hljs-built_in">this</span>.dir = <span class="hljs-literal">true</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>根目录新建一个Utils.ts的文件</li>
+<li>一些基础工具方法写在这里</li>
+<li>现在又一个随机返回一个中文名称的方法</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-keyword">const</span> NAMES: <span class="hljs-built_in">Array</span>&lt;<span class="hljs-built_in">string</span>&gt; = [<br>    <span class="hljs-string">&#x27;断笔画墨&#x27;</span>,<br>    <span class="hljs-string">&#x27;默然相爱&#x27;</span>,<br>    <span class="hljs-string">&#x27;旅人不扰&#x27;</span>,<br>    <span class="hljs-string">&#x27;多余温情&#x27;</span>,<br>    <span class="hljs-string">&#x27;云中谁忆&#x27;</span>,<br>    <span class="hljs-string">&#x27;残雪冰心&#x27;</span>,<br>    <span class="hljs-string">&#x27;末世岛屿&#x27;</span>,<br>    <span class="hljs-string">&#x27;桑榆非晚&#x27;</span>,<br>    <span class="hljs-string">&#x27;扉匣与桔&#x27;</span>,<br>    <span class="hljs-string">&#x27;木槿暖夏&#x27;</span>,<br>    <span class="hljs-string">&#x27;空城旧梦&#x27;</span>,<br>];<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 返回随机的中文名</span><br><span class="hljs-comment"> * </span><br><span class="hljs-comment"> * <span class="hljs-doctag">@export</span></span><br><span class="hljs-comment"> * <span class="hljs-doctag">@returns <span class="hljs-type">&#123;string&#125;</span></span></span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">randomChineseName</span>(<span class="hljs-params"></span>): <span class="hljs-title">string</span> </span>&#123;<br>    <span class="hljs-keyword">return</span> NAMES[~~(NAMES.length * <span class="hljs-built_in">Math</span>.random())];<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="简单分析"><a href="#简单分析" class="headerlink" title="简单分析"></a>简单分析</h2><ul>
+<li>不正确的图像架构</li>
+</ul>
+<p><img src="/images/colyseus/simple.png" srcset="/img/loading.gif" lazyload>  </p>
+<ul>
+<li>一个游戏服务器下面可以开N个房间Room</li>
+<li>Room中存在一个state的对象,发生变化时候同步到Room下的客户端</li>
+<li>使得客户端的状态保持一致</li>
+<li>这个就是colyseus实现的状态同步服务器</li>
+</ul>
+<h2 id="启动服务器"><a href="#启动服务器" class="headerlink" title="启动服务器"></a>启动服务器</h2><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ts">tsc &amp;&amp; node ./dist/index.js<br></code></pre></td></tr></table></figure>
+
+
+<h2 id="简单的客户端"><a href="#简单的客户端" class="headerlink" title="简单的客户端"></a>简单的客户端</h2><p><img src="/images/colyseus/cut1.png" srcset="/img/loading.gif" lazyload>  </p>
+<p>源码地址:<a target="_blank" rel="noopener" href="https://gitee.com/limo/simple_server">https://gitee.com/limo/simple_server</a></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%B8%B8%E6%88%8F%E7%BC%96%E7%A8%8B/">游戏编程</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/nodejs/">nodejs</a>
+                    
+                      <a class="hover-with-bg" href="/tags/server/">server</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/fb21768a/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">CocosCreator工具类补全计划</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/ca90cf50/">
+                        <span class="hidden-mobile">10分钟编写一个贪吃蛇</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+  <!-- 备案信息 -->
+  <div class="beian">
+    <span>
+      <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+        浙ICP备20021627
+      </a>
+    </span>
+    
+  </div>
+
+
+  
+    <!-- cnzz Analytics Icon -->
+    <span id="cnzz_stat_icon_1260480291" style="display: none"></span>
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <!-- cnzz Analytics -->
+    <script defer src="//s4.cnzz.com/z_stat.php?id=1260480291&show=pic"
+            type="text/javascript"></script>
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
